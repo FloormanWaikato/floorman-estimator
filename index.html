@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Floorman Waikato | Timber Floor Estimate</title>
+  <meta name="description" content="Private prototype for Floorman Waikato timber flooring estimator" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="brand-bar">
+      <div>
+        <div class="eyebrow">FLOORMAN WAIKATO</div>
+        <h1>Timber Floor Estimate</h1>
+      </div>
+      <div class="prototype-badge">Prototype</div>
+    </header>
+
+    <section class="intro" id="introScreen">
+      <p class="kicker">A quick guide to your project</p>
+      <h2>Get an indicative estimate for your timber floor</h2>
+      <p>Answer a few simple questions about the floor, the finish you want and the job site. This prototype does not calculate a real price or submit your details anywhere yet.</p>
+      <div class="notice">You can stop at any time and contact Jamie directly if you would rather discuss the job.</div>
+      <button class="primary" id="startBtn">Start timber estimate</button>
+    </section>
+
+    <section class="wizard hidden" id="wizard">
+      <div class="progress-wrap">
+        <div class="progress-copy"><span id="stepLabel">Step 1 of 5</span><span id="stepName">What do you want done?</span></div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <form id="estimateForm">
+        <section class="step active" data-step="1">
+          <h2>What do you want done?</h2>
+          <p class="helper">Choose the option that best describes the job.</p>
+          <div class="choice-grid single-choice" data-name="service">
+            <button type="button" class="choice" data-value="Sanding only"><strong>Sanding only</strong><span>Prepare the timber floor without a new coating system.</span></button>
+            <button type="button" class="choice" data-value="Sand & coat — existing timber floor"><strong>Sand & coat</strong><span>Existing timber floor to be sanded and refinished.</span></button>
+            <button type="button" class="choice" data-value="Sand & coat — new timber floor"><strong>Sand & coat — new floor</strong><span>Newly installed timber flooring requiring sanding and finishing.</span></button>
+            <button type="button" class="choice" data-value="Other / Not sure"><strong>Other / Not sure</strong><span>Jamie can recommend the right approach.</span></button>
+          </div>
+          <label class="field hidden" id="serviceOtherWrap">Tell us briefly what you need<input type="text" name="service_other" placeholder="Optional note" /></label>
+        </section>
+
+        <section class="step" data-step="2">
+          <h2>Tell us about the floor</h2>
+          <div class="field-group">
+            <label class="field-label">Approximate area</label>
+            <div class="segmented single-choice" data-name="measure_mode">
+              <button type="button" class="segment" data-value="Known area">I know the area</button>
+              <button type="button" class="segment" data-value="Room calculator">Help me calculate it</button>
+              <button type="button" class="segment" data-value="Not sure">Not sure</button>
+            </div>
+            <div class="field hidden" id="knownAreaWrap"><label>Approximate total area<input type="number" min="1" step="0.1" name="known_area" placeholder="e.g. 45" /><span class="suffix">m²</span></label></div>
+            <div class="room-calc hidden" id="roomCalcWrap">
+              <div id="roomRows"></div>
+              <button type="button" class="secondary small" id="addRoomBtn">+ Add another area</button>
+              <div class="total">Estimated total: <strong><span id="roomTotal">0.0</span> m²</strong></div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Do you know the timber type?</label>
+            <select name="timber_type">
+              <option value="">Choose one</option>
+              <option>Rimu</option><option>Matai</option><option>Tawa</option><option>Pine</option><option>Oak</option><option>Other</option><option>Not sure</option>
+            </select>
+            <input class="hidden" id="timberOther" type="text" name="timber_other" placeholder="Timber type, if known" />
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">What is on the floor now?</label>
+            <select name="covering" id="coveringSelect">
+              <option value="">Choose one</option>
+              <option>Bare timber</option><option>Existing polyurethane/coating</option><option>Carpet</option><option>Vinyl/lino</option><option>Other</option><option>Not sure</option>
+            </select>
+            <div class="conditional hidden" id="carpetQuestions">
+              <label>Will the carpet already be removed before we arrive?<select name="carpet_removed"><option value="">Choose one</option><option>Yes</option><option>No</option><option>Not sure</option></select></label>
+              <label>Do staples, tacks or carpet gripper need removing?<select name="carpet_fixings"><option value="">Choose one</option><option>Yes</option><option>No</option><option>Not sure</option></select></label>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="3">
+          <h2>What result are you after?</h2>
+          <p class="helper">You choose the look. Floorman will recommend the most suitable coating system.</p>
+          <div class="choice-grid single-choice" data-name="appearance">
+            <button type="button" class="choice" data-value="Light / natural timber look"><strong>Light / natural</strong><span>Keeps the timber lighter and more natural looking.</span></button>
+            <button type="button" class="choice" data-value="Traditional warmer / richer timber look"><strong>Warmer / richer</strong><span>A more traditional, deeper timber appearance.</span></button>
+            <button type="button" class="choice" data-value="Stealth — super-matte natural finish"><strong>Stealth</strong><span>A super-matte, very natural finish.</span></button>
+            <button type="button" class="choice" data-value="Stained finish"><strong>Stained finish</strong><span>Change or deepen the timber colour.</span></button>
+            <button type="button" class="choice" data-value="Not sure — Jamie to recommend"><strong>Not sure</strong><span>Jamie can recommend the best finish.</span></button>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Anything we should know about the existing floor?</label>
+            <p class="helper">Tick any that apply.</p>
+            <div class="checks">
+              <label><input type="checkbox" name="condition" value="Large or noticeable gaps" /> Large or noticeable gaps</label>
+              <label><input type="checkbox" name="condition" value="Damaged or broken boards" /> Damaged or broken boards</label>
+              <label><input type="checkbox" name="condition" value="Dark stains or marks" /> Dark stains or marks</label>
+              <label><input type="checkbox" name="condition" value="Exposed or protruding nails" /> Exposed or protruding nails</label>
+              <label><input type="checkbox" name="condition" value="Glue or adhesive" /> Glue or adhesive</label>
+              <label><input type="checkbox" name="condition" value="Other" /> Other</label>
+              <label><input type="checkbox" name="condition" value="Nothing obvious" /> Nothing obvious</label>
+              <label><input type="checkbox" name="condition" value="Not sure" /> Not sure</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="4">
+          <h2>A few job details</h2>
+          <div class="field-group">
+            <label class="field-label">Will all floor areas be completely cleared before work starts?</label>
+            <div class="segmented single-choice" data-name="cleared">
+              <button type="button" class="segment" data-value="Yes">Yes</button>
+              <button type="button" class="segment" data-value="No">No</button>
+              <button type="button" class="segment" data-value="Not sure">Not sure</button>
+            </div>
+            <input class="hidden" id="clearedNote" type="text" name="cleared_note" placeholder="What may remain? Furniture, appliances, etc." />
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Any access issues?</label>
+            <div class="checks">
+              <label><input type="checkbox" name="access" value="Straightforward access" /> Straightforward access</label>
+              <label><input type="checkbox" name="access" value="Stairs or difficult access" /> Stairs or difficult access</label>
+              <label><input type="checkbox" name="access" value="Limited vehicle or parking access" /> Limited parking / vehicle access</label>
+              <label><input type="checkbox" name="access" value="Long distance from parking to work area" /> Long carry from parking</label>
+              <label><input type="checkbox" name="access" value="Not sure" /> Not sure</label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Is this part of a renovation or building project?</label>
+            <select name="project_type" id="projectType"><option value="">Choose one</option><option>No</option><option>Yes — renovation</option><option>Yes — new build</option><option>Not sure</option></select>
+            <input class="hidden" id="projectStage" type="text" name="project_stage" placeholder="Where is the project up to / when will the floor be ready?" />
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">When are you hoping to have the work done?</label>
+            <select name="timeframe"><option value="">Choose one</option><option>As soon as possible</option><option>Within the next month</option><option>1–3 months</option><option>More than 3 months</option><option>Flexible / just getting prices</option></select>
+          </div>
+        </section>
+
+        <section class="step" data-step="5">
+          <h2>Photos, comments and contact details</h2>
+          <p class="helper">Photos are optional in this prototype, but they will be very useful in the live version.</p>
+          <div class="upload-placeholder"><strong>Photo upload</strong><span>Overall floor, close-up of timber, and any damaged areas</span><span class="muted">Prototype only — files are not uploaded</span></div>
+
+          <label class="field">Anything else you’d like Jamie to know?<textarea name="comments" rows="4" placeholder="Optional comments"></textarea></label>
+
+          <div class="contact-grid">
+            <label class="field">Name *<input required type="text" name="name" /></label>
+            <label class="field">Phone *<input required type="tel" name="phone" /></label>
+            <label class="field wide">Email *<input required type="email" name="email" /></label>
+            <label class="field wide">Job address *<input required type="text" name="address" /></label>
+          </div>
+          <div class="privacy-note">Prototype only: nothing entered here is sent or saved.</div>
+        </section>
+
+        <div class="nav-row">
+          <button type="button" class="secondary" id="backBtn">Back</button>
+          <button type="button" class="primary" id="nextBtn">Continue</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="result hidden" id="resultScreen">
+      <div class="success-mark">✓</div>
+      <p class="kicker">Prototype complete</p>
+      <h2>This is where the customer’s estimate would appear</h2>
+      <div class="estimate-box">
+        <span>Indicative estimate</span>
+        <strong>$X,XXX – $X,XXX</strong>
+        <small>Final pricing would be confirmed after Jamie reviews the details, photos, floor condition and appropriate coating system.</small>
+      </div>
+      <div class="summary-card"><h3>What Jamie would receive</h3><div id="summary"></div></div>
+      <button class="primary" id="restartBtn">Try it again</button>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
