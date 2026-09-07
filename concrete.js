@@ -66,12 +66,17 @@ function enforceExclusiveCheckboxes(name, exclusiveValues){
 enforceExclusiveCheckboxes('access',['Straightforward access','Not sure']);
 enforceExclusiveCheckboxes('condition',['Nothing obvious','Not sure']);
 
-const photoInput=document.getElementById('photos');
-const photoList=document.getElementById('photoList');
-if(photoInput && photoList){
+let photoInput=null;
+let photoList=null;
+function setupPhotoPicker(){
+  const placeholder=document.querySelector('.upload-placeholder');
+  if(!placeholder) return;
+  placeholder.innerHTML=`<strong>Add photos</strong><span>Overall area, close-up of the slab, edges, cracks, coatings and damaged areas</span><input id="photos" name="photos" type="file" accept="image/*" multiple><span class="muted">Optional — up to 5 photos. They are selected on your device but are not uploaded yet.</span><div id="photoList" class="muted"></div>`;
+  photoInput=document.getElementById('photos');
+  photoList=document.getElementById('photoList');
   photoInput.addEventListener('change',()=>{
-    const files=[...photoInput.files].slice(0,5);
-    if(photoInput.files.length>5){
+    const files=[...photoInput.files];
+    if(files.length>5){
       alert('Please select up to 5 photos.');
       photoInput.value='';
       photoList.textContent='';
@@ -80,6 +85,7 @@ if(photoInput && photoList){
     photoList.innerHTML=files.length ? files.map(f=>`<div>${escapeHtml(f.name)}</div>`).join('') : '';
   });
 }
+setupPhotoPicker();
 
 function addRoom(){
   const wrap=document.getElementById('roomRows');
