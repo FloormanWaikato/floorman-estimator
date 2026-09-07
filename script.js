@@ -52,6 +52,35 @@ document.getElementById('projectType').addEventListener('change',e=>{
   document.getElementById('projectStage').classList.toggle('hidden',!e.target.value.startsWith('Yes'));
 });
 
+function enforceExclusiveCheckboxes(name, exclusiveValues){
+  const boxes=[...form.querySelectorAll(`input[name="${name}"]`)];
+  boxes.forEach(box=>box.addEventListener('change',()=>{
+    if(!box.checked) return;
+    if(exclusiveValues.includes(box.value)){
+      boxes.forEach(other=>{if(other!==box) other.checked=false;});
+    } else {
+      boxes.forEach(other=>{if(exclusiveValues.includes(other.value)) other.checked=false;});
+    }
+  }));
+}
+enforceExclusiveCheckboxes('access',['Straightforward access','Not sure']);
+enforceExclusiveCheckboxes('condition',['Nothing obvious','Not sure']);
+
+const photoInput=document.getElementById('photos');
+const photoList=document.getElementById('photoList');
+if(photoInput && photoList){
+  photoInput.addEventListener('change',()=>{
+    const files=[...photoInput.files].slice(0,5);
+    if(photoInput.files.length>5){
+      alert('Please select up to 5 photos.');
+      photoInput.value='';
+      photoList.textContent='';
+      return;
+    }
+    photoList.innerHTML=files.length ? files.map(f=>`<div>${escapeHtml(f.name)}</div>`).join('') : '';
+  });
+}
+
 function addRoom(){
   const wrap=document.getElementById('roomRows');
   const row=document.createElement('div'); row.className='room-row';
@@ -77,6 +106,7 @@ document.getElementById('restartBtn').addEventListener('click',()=>{
   result.classList.add('hidden'); intro.classList.remove('hidden'); form.reset();
   document.querySelectorAll('.selected').forEach(e=>e.classList.remove('selected'));
   document.querySelectorAll('#roomRows .room-row').forEach(e=>e.remove());
+  if(photoList) photoList.textContent='';
   Object.keys(state).forEach(k=>delete state[k]);
 });
 
@@ -99,7 +129,7 @@ function value(name){return form.elements[name]?.value||'Not entered'}
 function buildSummary(){
   const timber=value('timber_type')==='Other' ? value('timber_other') : value('timber_type');
   const rows=[
-    ['Service',state.service||'Not selected'],['Area',roomSummary()],['Timber',timber],['Current floor covering',value('covering')],['Desired appearance',state.appearance||'Not selected'],['Floor condition',checked('condition')],['Areas cleared',state.cleared||'Not selected'],['Access',checked('access')],['Project type',value('project_type')],['Timeframe',value('timeframe')],['Customer',value('name')],['Phone',value('phone')],['Email',value('email')],['Job address',value('address')],['Comments',value('comments')]
+    ['Service',state.service||'Not selected'],['Area',roomSummary()],['Timber',timber],['Current floor covering',value('covering')],['Desired appearance',state.appearance||'Not selected'],['Floor condition',checked('condition')],['Areas cleared',state.cleared||'Not selected'],['Access',checked('access')],['Project type',value('project_type')],['Timeframe',value('timeframe')],['Photos',photoInput?.files?.length ? `${photoInput.files.length} selected` : 'None selected'],['Customer',value('name')],['Phone',value('phone')],['Email',value('email')],['Job address',value('address')],['Comments',value('comments')]
   ];
   document.getElementById('summary').innerHTML=rows.map(([k,v])=>`<div class="summary-row"><b>${escapeHtml(k)}</b><span>${escapeHtml(v)}</span></div>`).join('');
 }
