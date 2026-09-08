@@ -1,4 +1,5 @@
 const path = require('path');
+const ESTIMATOR_ROOT = '/\u200dFLOORMAN  Waikato/Estimator Enquiries';
 
 async function getDropboxAccessToken() {
   const refreshToken = process.env.DROPBOX_REFRESH_TOKEN;
@@ -41,7 +42,7 @@ module.exports = async function handler(req, res) {
 
     const safeName = path.basename(String(filename)).replace(/[^a-zA-Z0-9._-]/g, '_');
     const safeFolder = String(folder || 'Unassigned').replace(/[^a-zA-Z0-9 _-]/g, '').trim().slice(0, 80) || 'Unassigned';
-    const dropboxPath = `/Estimator Enquiries/${safeFolder}/${Date.now()}-${safeName}`;
+    const dropboxPath = `${ESTIMATOR_ROOT}/${safeFolder}/${Date.now()}-${safeName}`;
 
     const response = await fetch('https://content.dropboxapi.com/2/files/upload', {
       method: 'POST',
