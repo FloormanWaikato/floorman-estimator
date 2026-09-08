@@ -17,9 +17,18 @@ module.exports = async function handler(req, res) {
     const safePhotos = Array.isArray(photos) ? photos.slice(0, 5) : [];
     const title = `${type === 'Concrete' ? 'Concrete' : 'Timber'} estimator enquiry — ${customer.name}`;
     const table = safeRows.map(([key, value]) => `<tr><td style="padding:7px 12px;border-bottom:1px solid #ddd;font-weight:600;vertical-align:top">${escapeHtml(key)}</td><td style="padding:7px 12px;border-bottom:1px solid #ddd">${escapeHtml(value)}</td></tr>`).join('');
-    const photoHtml = safePhotos.length
-      ? `<p><strong>Dropbox photos:</strong> ${safePhotos.length}</p><ul>${safePhotos.map(p => `<li>${escapeHtml(p.path || p.name || 'Uploaded photo')}</li>`).join('')}</ul>`
-      : '<p><strong>Dropbox photos:</strong> None</p>';
+
+    let photoHtml = '<p><strong>Dropbox photos:</strong> None</p>';
+    if (safePhotos.length) {
+      const paths = safePhotos.map(p => String(p.path || ''));
+      const firstPath = paths.find(Boolean) || '';
+      const folder = firstPath.includes('/') ? firstPath.split('/').slice(0, -1).join('/') : 'Estimator Enquiries';
+      const names = safePhotos.map(p => {
+        const raw = String(p.name || p.path || 'Uploaded photo');
+        return raw.includes('/') ? raw.split('/').pop() : raw;
+      });
+      photoHtml = `<p><strong>Dropbox photos:</strong> ${safePhotos.length} uploaded</p><p><strong>Folder:</strong> ${escapeHtml(folder)}</p><p><strong>Files:</strong> ${names.map(escapeHtml).join(', ')}</p>`;
+    }
 
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
