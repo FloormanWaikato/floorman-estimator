@@ -1,12 +1,35 @@
 const path = require('path');
 
+async function getDropboxAccessToken() {
+  const refreshToken = process.env.DROPBOX_REFRESH_TOKEN;
+  const appKey = process.env.DROPBOX_APP_KEY;
+  const appSecret = process.env.DROPBOX_APP_SECRET;
+  if (!refreshToken || !appKey || !appSecret) throw new Error('Dropbox OAuth is not configured');
+
+  const body = new URLSearchParams({
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken,
+    client_id: appKey,
+    client_secret: appSecret
+  });
+  const response = await fetch('https://api.dropboxapi.com/oauth2/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString()
+  });
+  const data = await response.json();
+  if (!response.ok || !data.access_token) {
+    console.error('Dropbox token refresh failed', data);
+    throw new Error('Dropbox token refresh failed');
+  }
+  return data.access_token;
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const token = process.env.DROPBOX_ACCESS_TOKEN;
-  if (!token) return res.status(500).json({ error: 'Dropbox is not configured' });
-
   try {
+    const token = await getDropboxAccessToken();
     const { filename, content, folder } = req.body || {};
     if (!filename || !content) return res.status(400).json({ error: 'Missing photo data' });
 
