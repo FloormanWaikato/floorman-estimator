@@ -2,6 +2,10 @@ const path = require('path');
 const DROPBOX_ROOT_NAMESPACE = '13634290';
 const ESTIMATOR_ROOT = '/\u200dFLOORMAN  Waikato/Estimator Enquiries';
 
+function asciiJson(value) {
+  return JSON.stringify(value).replace(/[\u007f-\uffff]/g, ch => `\\u${ch.charCodeAt(0).toString(16).padStart(4, '0')}`);
+}
+
 async function getDropboxAccessToken() {
   const refreshToken = process.env.DROPBOX_REFRESH_TOKEN;
   const appKey = process.env.DROPBOX_APP_KEY;
@@ -49,8 +53,8 @@ module.exports = async function handler(req, res) {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
-        'Dropbox-API-Path-Root': JSON.stringify({ '.tag': 'root', root: DROPBOX_ROOT_NAMESPACE }),
-        'Dropbox-API-Arg': JSON.stringify({ path: dropboxPath, mode: 'add', autorename: true, mute: true }),
+        'Dropbox-API-Path-Root': asciiJson({ '.tag': 'root', root: DROPBOX_ROOT_NAMESPACE }),
+        'Dropbox-API-Arg': asciiJson({ path: dropboxPath, mode: 'add', autorename: true, mute: true }),
         'Content-Type': 'application/octet-stream'
       },
       body: bytes
