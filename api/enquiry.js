@@ -1,5 +1,6 @@
 const RECIPIENT = 'jamie@floorman.co.nz';
 const FROM = 'Floorman Estimator <estimator@floorman.co.nz>';
+const ESTIMATOR_ROOT = '/\u200dFLOORMAN  Waikato/Estimator Enquiries';
 
 async function getDropboxAccessToken() {
   const refreshToken = process.env.DROPBOX_REFRESH_TOKEN;
@@ -25,7 +26,7 @@ async function saveEnquiryRecord(customer, type, rows, photos) {
     '',
     `Photos uploaded: ${photos.length}`
   ].join('\n');
-  const dropboxPath=`/Estimator Enquiries/${safeFolder}/Enquiry.txt`;
+  const dropboxPath=`${ESTIMATOR_ROOT}/${safeFolder}/Enquiry.txt`;
   const response=await fetch('https://content.dropboxapi.com/2/files/upload',{method:'POST',headers:{Authorization:`Bearer ${token}`,'Dropbox-API-Arg':JSON.stringify({path:dropboxPath,mode:'overwrite',autorename:false,mute:true}),'Content-Type':'application/octet-stream'},body:Buffer.from(text,'utf8')});
   const data=await response.json();
   if(!response.ok){console.error('Dropbox enquiry record failed',data);throw new Error('Dropbox enquiry record failed');}
