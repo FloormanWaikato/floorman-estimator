@@ -1,3 +1,4 @@
+const { calculateTimber } = require('./timber-estimate');
 const RECIPIENT = 'jamie@floorman.co.nz';
 const FROM = 'Floorman Estimator <estimator@floorman.co.nz>';
 const DROPBOX_ROOT_NAMESPACE = '13634290';
@@ -41,10 +42,13 @@ module.exports = async function handler(req, res) {
   try {
     const apiKey=process.env.RESEND_API_KEY;
     if(!apiKey)return res.status(500).json({error:'Email service is not configured'});
-    const {type,customer,rows,photos}=req.body||{};
+    const {type,customer,rows,photos,timber}=req.body||{};
+    let estimate;
+    if(type!=='Concrete' && timber){try{estimate=calculateTimber(timber);}catch(error){return res.status(400).json({error:error.message});}}
     if(!customer?.name||!customer?.phone||!customer?.email||!customer?.address)return res.status(400).json({error:'Missing customer details'});
     const safeRows=Array.isArray(rows)?rows.slice(0,50):[];
     const safePhotos=Array.isArray(photos)?photos.slice(0,5):[];
+    if(estimate) safeRows.push(['Indicative estimate',estimate.total==null?'Jamie to confirm':new Intl.NumberFormat('en-NZ',{style:'currency',currency:'NZD'}).format(estimate.total)+' NZD — '+estimate.gst],['Included',estimate.included],['Excluded / review',estimate.review.join('; ')],['Estimate disclaimer',estimate.disclaimer]);
     let recordPath='';
     try{recordPath=await saveEnquiryRecord(customer,type==='Concrete'?'Concrete':'Timber',safeRows,safePhotos);}catch(err){console.error(err);}
     const title=`${type==='Concrete'?'Concrete':'Timber'} estimator enquiry — ${customer.name}`;
@@ -55,7 +59,7 @@ module.exports = async function handler(req, res) {
     const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},body:JSON.stringify({from:FROM,to:[RECIPIENT],reply_to:customer.email,subject:title,html:`<div style="font-family:Arial,sans-serif;max-width:760px"><h2>${escapeHtml(title)}</h2><p>A new enquiry has been submitted through the Floorman online estimator.</p><table style="border-collapse:collapse;width:100%">${table}</table>${photoHtml}${recordHtml}<p style="margin-top:24px;color:#666">Replying to this email will reply to ${escapeHtml(customer.name)} at ${escapeHtml(customer.email)}.</p></div>`})});
     const data=await response.json();
     if(!response.ok){console.error('Resend email failed',data);return res.status(502).json({error:'Enquiry email failed'});}
-    return res.status(200).json({ok:true,id:data.id,recordPath});
+    return res.status(200).json({ok:true,id:data.id,recordPath,...(estimate?{estimate}:{})});
   }catch(error){console.error('Enquiry submission failed',error);return res.status(500).json({error:'Enquiry submission failed'});}
 };
 function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
