@@ -9,24 +9,20 @@
 </head>
 <body>
   <main class="app-shell">
-    <header class="brand-bar">
-      <div>
-        <img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" />
-        <h1>Timber Floor Estimate</h1>
-      </div>
-      
-    </header>
+    
 
-    <section class="intro" id="introScreen">
+    <section class="intro" id="introScreen"><div class="intro-brand"><img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" /></div>
       <p class="kicker">A quick guide to your project</p>
-      <h2>Get an indicative estimate for your timber floor</h2>
+      <h2>Let’s find the right floor for you</h2>
       <p>Answer a few simple questions about the floor, the finish you want and the job site. Submit your details and optional photos for Jamie to review and confirm pricing.</p>
-      <figure class="service-visual"><img src="assets/timber-project.jpg" alt="Completed Floorman timber flooring project in a living room" width="900" height="675" fetchpriority="high" /><figcaption>A completed Floorman Waikato timber flooring project.</figcaption></figure><div class="notice">You can stop at any time and contact Jamie directly if you would rather discuss the job.</div>
-      <button class="primary" id="startBtn">Start timber estimate</button>
-      <button class="secondary" type="button" onclick="window.location.href='concrete.html'">Concrete floor estimate</button>
-    </section>
+      <div class="service-cards">
+<button class="service-card" type="button" id="startBtn"><img src="assets/timber-project.jpg" alt="Completed Floorman timber flooring project" width="900" height="675" /><span class="service-copy"><strong>Timber floors</strong><span>Sanding and finishing for your timber floor.</span><span class="service-action">Start timber estimate →</span></span></button>
+<a class="service-card" href="concrete.html"><img src="assets/concrete-project.jpg" alt="Completed Floorman polished concrete project" width="900" height="1200" /><span class="service-copy"><strong>Concrete floors</strong><span>Polished concrete, grind &amp; seal and floor preparation.</span><span class="service-action">Start concrete estimate →</span></span></a>
+</div>
+<div class="notice">Choose Timber or Concrete to get started. Jamie will review your details and photos to confirm pricing.</div>
+</section>
 
-    <section class="wizard hidden" id="wizard">
+    <section class="wizard hidden" id="wizard"><div class="flow-brand"><img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" /><span>Timber floor estimate</span></div>
       <div class="progress-wrap">
         <div class="progress-copy"><span id="stepLabel">Step 1 of 5</span><span id="stepName">What do you want done?</span></div>
         <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -169,7 +165,7 @@
       </form>
     </section>
 
-    <section class="result hidden" id="resultScreen">
+    <section class="result hidden" id="resultScreen"><div class="intro-brand"><img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" /></div>
       <div class="success-mark">✓</div>
       <p class="kicker">Enquiry submitted</p>
       <h2>Thanks — your enquiry has been sent to Jamie</h2>
