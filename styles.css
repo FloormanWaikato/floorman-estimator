@@ -18,3 +18,8 @@ body:has(script[src="concrete.js"]) .brand-bar h1:before{content:"Concrete · ";
 .brand-logo{display:block;width:220px;max-width:100%;height:auto;background:#fff;border-radius:8px}
 .brand-bar h1:before{content:none!important}
 @media(max-width:680px){.brand-logo{width:175px}}
+
+.service-visual{margin:18px 0 24px;overflow:hidden;border-radius:16px;border:1px solid var(--line);background:var(--soft)}
+.service-visual img{display:block;width:100%;height:260px;object-fit:cover;object-position:center 65%}
+.service-visual figcaption{padding:10px 14px;font-size:.85rem;color:#555}
+@media(max-width:680px){.service-visual img{height:200px}}
