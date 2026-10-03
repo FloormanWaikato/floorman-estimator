@@ -43,6 +43,7 @@ module.exports = async function handler(req, res) {
     if(!apiKey)return res.status(500).json({error:'Email service is not configured'});
     const {type,customer,rows,photos}=req.body||{};
     if(!customer?.name||!customer?.phone||!customer?.email||!customer?.address)return res.status(400).json({error:'Missing customer details'});
+    if(typeof customer.email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email.trim()) || customer.email.length>254)return res.status(400).json({error:'Enter a valid email address'});
     const safeRows=Array.isArray(rows)?rows.slice(0,50):[];
     const safePhotos=Array.isArray(photos)?photos.slice(0,5):[];
     let recordPath='';
@@ -55,7 +56,38 @@ module.exports = async function handler(req, res) {
     const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},body:JSON.stringify({from:FROM,to:[RECIPIENT],reply_to:customer.email,subject:title,html:`<div style="font-family:Arial,sans-serif;max-width:760px"><h2>${escapeHtml(title)}</h2><p>A new enquiry has been submitted through the Floorman online estimator.</p><table style="border-collapse:collapse;width:100%">${table}</table>${photoHtml}${recordHtml}<p style="margin-top:24px;color:#666">Replying to this email will reply to ${escapeHtml(customer.name)} at ${escapeHtml(customer.email)}.</p></div>`})});
     const data=await response.json();
     if(!response.ok){console.error('Resend email failed',data);return res.status(502).json({error:'Enquiry email failed'});}
-    return res.status(200).json({ok:true,id:data.id,recordPath});
+    let customerEmailSent=false;
+    try {
+      const acknowledgement=buildAcknowledgement(customer,type,safeRows,safePhotos);
+      const customerResponse=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},body:JSON.stringify(acknowledgement)});
+      customerEmailSent=customerResponse.ok;
+      if(!customerResponse.ok)console.error('Customer acknowledgement was not accepted by email service',customerResponse.status);
+    } catch(error) { console.error('Customer acknowledgement failed',error.message); }
+    // The enquiry is accepted even if the customer email fails; do not prompt a duplicate submission.
+    return res.status(200).json({ok:true,id:data.id,recordPath,customerEmailSent});
   }catch(error){console.error('Enquiry submission failed',error);return res.status(500).json({error:'Enquiry submission failed'});}
 };
 function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function buildAcknowledgement(customer,type,rows,photos) {
+  const service=type==='Concrete'?'Concrete':'Timber';
+  // Pricing must come from a server calculation before it is added to customer emails.
+  const text=[
+    `Hi ${customer.name},`,
+    '',
+    `Thanks for your ${service.toLowerCase()} flooring enquiry with Floorman Waikato.`,
+    `We've received your job details${photos.length?' and '+photos.length+' photo'+(photos.length===1?'':'s'):''}.`,
+    'Jamie will review your enquiry and be in touch to discuss the work, confirm pricing and arrange a site visit if needed.',
+    '',
+    'You can reply to this email with any questions or extra details.',
+    '',
+    'Before work starts, please arrange for appliances to be removed. Floorman Waikato does not disconnect, move or reconnect appliances.',
+    '',
+    'Thanks,',
+    'Jamie',
+    'Floorman Waikato'
+  ].join('\n');
+  const html=`<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#252825"><img src="https://floorman-estimator.vercel.app/assets/floorman-original-logo.jpg" alt="Floorman Waikato" width="175" style="display:block;margin:0 0 24px"><h2>Thanks for your enquiry</h2><p>Hi ${escapeHtml(customer.name)},</p><p>Thanks for your ${service.toLowerCase()} flooring enquiry with Floorman Waikato.</p><p>We've received your job details${photos.length?' and '+photos.length+' photo'+(photos.length===1?'':'s'):''}.</p><p>Jamie will review your enquiry and be in touch to discuss the work, confirm pricing and arrange a site visit if needed.</p><p>You can reply to this email with any questions or extra details.</p><p style="padding:16px;background:#fff8f0;border-left:3px solid #ef7d19"><strong>Appliances</strong><br>Before work starts, please arrange for appliances to be removed. Floorman Waikato does not disconnect, move or reconnect appliances.</p><p>Thanks,<br>Jamie<br>Floorman Waikato</p></div>`;
+  return {from:FROM,to:[customer.email.trim()],reply_to:RECIPIENT,subject:`We've received your ${service.toLowerCase()} flooring enquiry — Floorman Waikato`,text,html};
+}
+module.exports.buildAcknowledgement=buildAcknowledgement;
