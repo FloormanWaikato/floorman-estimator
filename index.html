@@ -91,6 +91,13 @@
             <button type="button" class="choice" data-value="Not sure — Jamie to recommend"><strong>Not sure</strong><span>Jamie can recommend the best finish.</span></button>
           </div>
 
+          <div class="field-group"><label class="field">Coating system (not needed for sanding only)<select name="finish"><option value="unknown">Not sure — Jamie to recommend</option><option value="water">2K water-based</option><option value="oil">Oil system</option><option value="stain">Stain &amp; 2K water-based</option></select></label><p class="helper">The appearance choice above helps Jamie understand your preferred look. Select a coating system for an indicative price.</p></div>
+          <div class="field-group"><h3>Preparation to include</h3><p class="helper">Yes includes this work across the full measured floor area. For partial areas, choose “Not sure” and describe them in comments for Jamie to price.</p>
+          <label class="field">Include epoxy gap filling?<select name="gapFilling"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+          <label class="field">Floorman to lift and dispose of carpet?<select name="carpetRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+          <label class="field">Floorman to remove tacks, staples or gripper?<select name="fixingsRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+          <label class="field">Floorman to remove normal vinyl/lino?<select name="vinylRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+          <p class="helper">Nail punching is included.</p></div>
           <div class="field-group">
             <label class="field-label">Anything we should know about the existing floor?</label>
             <p class="helper">Tick any that apply.</p>
@@ -109,14 +116,20 @@
 
         <section class="step" data-step="4">
           <h2>A few job details</h2>
+          <label class="field">Number of large furniture items Floorman needs to move (excludes appliances)<input name="largeItems" type="number" min="0" max="10000" step="1" placeholder="0 if none; leave blank if unsure"></label>
+          <label class="field">Does hardboard need removing? (site visit/TBC)<select name="hardboard"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+          <label class="field">Do any stairs need sanding/finishing? (priced separately/TBC)<select name="stairs"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+          <label class="field">Heavy glue/adhesive, paint or unusually difficult coatings? (review/TBC)<select name="difficultCoatings"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+          <p class="helper">Travel is TBC. These review items are excluded from the indicative estimate.</p>
+
           <div class="field-group">
-            <label class="field-label">Will all floor areas be completely cleared before work starts?</label>
+            <label class="field-label">Will all floor areas be completely cleared before work starts?</label><p class="helper">Please arrange for appliances to be removed before work starts. Floorman Waikato does not disconnect, move or reconnect appliances.</p>
             <div class="segmented single-choice" data-name="cleared">
               <button type="button" class="segment" data-value="Yes">Yes</button>
               <button type="button" class="segment" data-value="No">No</button>
               <button type="button" class="segment" data-value="Not sure">Not sure</button>
             </div>
-            <input class="hidden" id="clearedNote" type="text" name="cleared_note" placeholder="What may remain? Furniture, appliances, etc." />
+            <input class="hidden" id="clearedNote" type="text" name="cleared_note" placeholder="What furniture or other items may remain?" />
           </div>
 
           <div class="field-group">
@@ -169,11 +182,7 @@
       <div class="success-mark">✓</div>
       <p class="kicker">Enquiry submitted</p>
       <h2>Thanks — your enquiry has been sent to Jamie</h2>
-      <div class="estimate-box">
-        <span>Pricing review</span>
-        <strong>Jamie will confirm pricing</strong>
-        <small>Final pricing will be confirmed after Jamie reviews the details, photos, floor condition and appropriate coating system.</small>
-      </div>
+      <div class="estimate-box"><span>Indicative Timber pricing guide</span><strong id="estimateTotal"></strong><p id="estimateGst"></p><p id="estimateIncluded"></p><ul id="estimateReview"></ul><small id="estimateDisclaimer"></small></div><p id="customerEmailStatus"></p>
       <div class="summary-card"><h3>Your enquiry details</h3><div id="summary"></div></div>
       <button class="primary" id="restartBtn">Start another enquiry</button>
     </section>
