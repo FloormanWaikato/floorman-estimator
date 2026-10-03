@@ -4,23 +4,23 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Floorman Waikato | Timber Floor Estimate</title>
-  <meta name="description" content="Private prototype for Floorman Waikato timber flooring estimator" />
+  <meta name="description" content="Floorman Waikato timber flooring enquiry and estimate" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main class="app-shell">
     <header class="brand-bar">
       <div>
-        <div class="eyebrow">FLOORMAN WAIKATO</div>
+        <img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" />
         <h1>Timber Floor Estimate</h1>
       </div>
-      <div class="prototype-badge">Prototype</div>
+      
     </header>
 
     <section class="intro" id="introScreen">
       <p class="kicker">A quick guide to your project</p>
       <h2>Get an indicative estimate for your timber floor</h2>
-      <p>Answer a few simple questions about the floor, the finish you want and the job site. This prototype does not calculate a real price or submit your details anywhere yet.</p>
+      <p>Answer a few simple questions about the floor, the finish you want and the job site. Submit your details and optional photos for Jamie to review and confirm pricing.</p>
       <div class="notice">You can stop at any time and contact Jamie directly if you would rather discuss the job.</div>
       <button class="primary" id="startBtn">Start timber estimate</button>
       <button class="secondary" type="button" onclick="window.location.href='concrete.html'">Concrete floor estimate</button>
@@ -148,8 +148,8 @@
 
         <section class="step" data-step="5">
           <h2>Photos, comments and contact details</h2>
-          <p class="helper">Photos are optional in this prototype, but they will be very useful in the live version.</p>
-          <div class="upload-placeholder"><strong>Photo upload</strong><span>Overall floor, close-up of timber, and any damaged areas</span><span class="muted">Prototype only — files are not uploaded</span></div>
+          <p class="helper">Photos are optional and help Jamie assess your floor and the work required.</p>
+          <div class="upload-placeholder"><strong>Photo upload</strong><span>Overall floor, close-up of timber, and any damaged areas</span><span class="muted">Selected photos are uploaded when you submit your enquiry.</span></div>
 
           <label class="field">Anything else you’d like Jamie to know?<textarea name="comments" rows="4" placeholder="Optional comments"></textarea></label>
 
@@ -159,7 +159,7 @@
             <label class="field wide">Email *<input required type="email" name="email" /></label>
             <label class="field wide">Job address *<input required type="text" name="address" /></label>
           </div>
-          <div class="privacy-note">Prototype only: nothing entered here is sent or saved.</div>
+          <div class="privacy-note">When you submit, your contact and job details are sent to Floorman Waikato. Selected photos are uploaded and stored for Jamie to review.</div>
         </section>
 
         <div class="nav-row">
@@ -171,15 +171,15 @@
 
     <section class="result hidden" id="resultScreen">
       <div class="success-mark">✓</div>
-      <p class="kicker">Prototype complete</p>
-      <h2>This is where the customer’s estimate would appear</h2>
+      <p class="kicker">Enquiry submitted</p>
+      <h2>Thanks — your enquiry has been sent to Jamie</h2>
       <div class="estimate-box">
-        <span>Indicative estimate</span>
-        <strong>$X,XXX – $X,XXX</strong>
-        <small>Final pricing would be confirmed after Jamie reviews the details, photos, floor condition and appropriate coating system.</small>
+        <span>Pricing review</span>
+        <strong>Jamie will confirm pricing</strong>
+        <small>Final pricing will be confirmed after Jamie reviews the details, photos, floor condition and appropriate coating system.</small>
       </div>
-      <div class="summary-card"><h3>What Jamie would receive</h3><div id="summary"></div></div>
-      <button class="primary" id="restartBtn">Try it again</button>
+      <div class="summary-card"><h3>Your enquiry details</h3><div id="summary"></div></div>
+      <button class="primary" id="restartBtn">Start another enquiry</button>
     </section>
   </main>
   <script src="script.js"></script>
