@@ -64,6 +64,7 @@ body:has(script[src="concrete.js"]) .trust-message .reviews{color:#785019}
 .service-copy>span{color:#505b60}
 .service-copy .service-action{color:#84400d}
 .service-card img{height:210px}
+.concrete-card img,.service-visual img{object-position:center 40%}
 .intro-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:24px}
 .intro-actions a{text-decoration:none}
 .primary{background:var(--orange);color:#25180a;border:1px solid #d66d12;border-bottom:3px solid #b55508;min-height:48px}

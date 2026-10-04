@@ -1,5 +1,7 @@
 const {scheduleFollowup,cancelFollowup,emailRequest}=require('../lib/followup');
 const { calculateTimber } = require('./timber-estimate');
+const { calculateConcrete } = require('./concrete-estimate');
+const { formatEstimate } = require('../lib/estimate-format');
 const RECIPIENT = 'jamie@floorman.co.nz';
 const FROM = 'Floorman Estimator <estimator@floorman.co.nz>';
 const DROPBOX_ROOT_NAMESPACE = '13634290';
@@ -43,16 +45,17 @@ module.exports = async function handler(req, res) {
   try {
     const apiKey=process.env.RESEND_API_KEY;
     if(!apiKey)return res.status(500).json({error:'Email service is not configured'});
-    const {type,customer,rows,photos,timber,submissionId,submittedAt}=req.body||{};
+    const {type,customer,rows,photos,timber,concrete,submissionId,submittedAt}=req.body||{};
     let submission;
     if(submissionId){const time=Date.parse(submittedAt);if(!/^[0-9a-f-]{36}$/i.test(submissionId)||!Number.isFinite(time)||time>Date.now()+300000||time<Date.now()-86400000)return res.status(400).json({error:'Please start a new enquiry'});submission={id:submissionId,time};}
     let estimate;
     if(type==='Timber' && timber){try{estimate=calculateTimber(timber);}catch(error){return res.status(400).json({error:error.message});}}
+    if(type==='Concrete'){try{estimate=calculateConcrete(concrete);}catch(error){return res.status(400).json({error:error.message});}}
     if(!customer?.name||!customer?.phone||!customer?.email||!customer?.address)return res.status(400).json({error:'Missing customer details'});
     if(typeof customer.email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email.trim()) || customer.email.length>254)return res.status(400).json({error:'Enter a valid email address'});
     const safeRows=Array.isArray(rows)?rows.slice(0,50):[];
     const safePhotos=Array.isArray(photos)?photos.slice(0,5):[];
-    if(estimate)safeRows.push(['Indicative estimate',estimate.total==null?'Jamie to confirm':new Intl.NumberFormat('en-NZ',{style:'currency',currency:'NZD'}).format(estimate.total)+' NZD — '+estimate.gst],['Included',estimate.included],['Excluded / review',estimate.review.join('; ')],['Estimate disclaimer',estimate.disclaimer]);
+    if(estimate)safeRows.push(['Indicative estimate',estimate.status==='review'?formatEstimate(estimate):formatEstimate(estimate)+' NZD — '+estimate.gst],['Included',estimate.included],['Excluded / review',estimate.review.join('; ')],['Estimate disclaimer',estimate.disclaimer]);
     let recordPath='';
     try{recordPath=await saveEnquiryRecord(customer,type==='Concrete'?'Concrete':'Timber',safeRows,safePhotos);}catch(err){console.error(err);}
     let followup;
@@ -82,8 +85,8 @@ function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':
 
 function buildAcknowledgement(customer,type,rows,photos,estimate) {
   const service=type==='Concrete'?'Concrete':'Timber';
-  const pricingText=estimate?['','Indicative Timber pricing guide',estimate.total==null?'Jamie to confirm pricing':new Intl.NumberFormat('en-NZ',{style:'currency',currency:'NZD'}).format(estimate.total)+' NZD — '+estimate.gst,estimate.included,'Excluded / to review:',...estimate.review,estimate.disclaimer].join('\n'):'';
-  const pricingHtml=estimate?`<div style="padding:20px;background:#f7f4ed;border-radius:12px"><h3>Indicative Timber pricing guide</h3><p style="font-size:24px;font-weight:bold">${estimate.total==null?'Jamie to confirm pricing':escapeHtml(new Intl.NumberFormat('en-NZ',{style:'currency',currency:'NZD'}).format(estimate.total))}</p><p>${estimate.total==null?'':escapeHtml(estimate.gst)+' · NZD'}</p><p>${escapeHtml(estimate.included)}</p><strong>Excluded / to review</strong><ul>${estimate.review.map(item=>'<li>'+escapeHtml(item)+'</li>').join('')}</ul><p>${escapeHtml(estimate.disclaimer)}</p></div>`:'';
+  const pricingText=estimate?['','Indicative '+service+' pricing guide',estimate.status==='review'?formatEstimate(estimate):formatEstimate(estimate)+' NZD — '+estimate.gst,estimate.included,'Excluded / to review:',...estimate.review,estimate.disclaimer].join('\n'):'';
+  const pricingHtml=estimate?`<div style="padding:20px;background:#f7f4ed;border-radius:12px"><h3>Indicative ${service} pricing guide</h3><p style="font-size:24px;font-weight:bold">${escapeHtml(formatEstimate(estimate))}</p><p>${estimate.status==='review'?'':escapeHtml(estimate.gst)+' · NZD'}</p><p>${escapeHtml(estimate.included)}</p><strong>Excluded / to review</strong><ul>${estimate.review.map(item=>'<li>'+escapeHtml(item)+'</li>').join('')}</ul><p>${escapeHtml(estimate.disclaimer)}</p></div>`:'';
 
   const text=[
     `Hi ${customer.name},`,
@@ -105,3 +108,4 @@ function buildAcknowledgement(customer,type,rows,photos,estimate) {
   return {from:FROM,to:[customer.email.trim()],reply_to:RECIPIENT,subject:`We've received your ${service.toLowerCase()} flooring enquiry — Floorman Waikato`,text,html};
 }
 module.exports.buildAcknowledgement=buildAcknowledgement;
+
