@@ -3,29 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Floorman Waikato | Timber Floor Estimate</title>
-  <meta name="description" content="Floorman Waikato timber flooring enquiry and estimate" />
+  <title>Floorman Waikato | Online Flooring Estimator</title>
+  <meta name="description" content="Explore Timber and Concrete flooring with Floorman Waikato. Share your project details for practical advice and a free quote." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main class="app-shell">
     
 
-    <section class="intro" id="introScreen"><div class="intro-brand"><img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" /></div>
-      <p class="kicker">A quick guide to your project</p>
+    <section class="intro" id="introScreen"><div class="intro-brand"><img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" /></div><p class="trust-message">30 Years’ Flooring Experience · Knowledge You Can Trust · Sound, Practical Advice · Free Quotes · <span class="reviews">★★★★★ Google Reviews</span></p>
+      <p class="kicker">Your floor. Our experience.</p>
       <h2>Let’s find the right floor for you</h2>
-      <p>Answer a few simple questions about the floor, the finish you want and the job site. Submit your details and optional photos for Jamie to review and confirm pricing.</p>
+      <p>Tell us about your floor in five easy steps. Get an indicative timber estimate where the details allow, or send your concrete project to Jamie for pricing advice.</p>
       <div class="service-cards">
-<button class="service-card" type="button" id="startBtn"><img src="assets/timber-project.jpg" alt="Completed Floorman timber flooring project" width="900" height="675" /><span class="service-copy"><strong>Timber floors</strong><span>Sanding and finishing for your timber floor.</span><span class="service-action">Start timber estimate →</span></span></button>
-<a class="service-card" href="concrete.html"><img src="assets/concrete-project.jpg" alt="Completed Floorman polished concrete project" width="900" height="1200" /><span class="service-copy"><strong>Concrete floors</strong><span>Polished concrete, grind &amp; seal and floor preparation.</span><span class="service-action">Start concrete estimate →</span></span></a>
+<button class="service-card timber-card" type="button" id="startBtn"><img src="assets/timber-project.jpg" alt="Completed Floorman timber flooring project" width="900" height="675" /><span class="service-copy"><strong>Timber floors</strong><span>Sanding and finishing for your timber floor.</span><span class="service-action">Start timber estimate →</span></span></button>
+<a class="service-card concrete-card" href="concrete.html"><img src="assets/concrete-project.jpg" alt="Completed Floorman polished concrete project" width="900" height="1200" /><span class="service-copy"><strong>Concrete floors</strong><span>Polished concrete, grind &amp; seal and floor preparation.</span><span class="service-action">Start concrete estimate →</span></span></a>
 </div>
-<div class="notice">Choose Timber or Concrete to get started. Jamie will review your details and photos to confirm pricing.</div>
+<div class="notice">No need to know all the answers. Choose “Not sure” whenever you need Jamie’s advice. Photos are optional, and your final quote is free.</div>
 </section>
 
     <section class="wizard hidden" id="wizard"><div class="flow-brand"><img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" /><span>Timber floor estimate</span></div>
-      <div class="progress-wrap">
+      <div class="progress-wrap"><ol class="progress-stages" aria-label="Estimate stages"><li data-stage="1"><span>1</span>Service</li><li data-stage="2"><span>2</span>Your floor</li><li data-stage="3"><span>3</span>Finish</li><li data-stage="4"><span>4</span>Job details</li><li data-stage="5"><span>5</span>Contact</li></ol>
         <div class="progress-copy"><span id="stepLabel">Step 1 of 5</span><span id="stepName">What do you want done?</span></div>
-        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-track" role="progressbar" aria-label="Estimate progress" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1"><div class="progress-fill" id="progressFill"></div></div>
       </div>
 
       <form id="estimateForm">
@@ -163,10 +163,10 @@
           <label class="field">Anything else you’d like Jamie to know?<textarea name="comments" rows="4" placeholder="Optional comments"></textarea></label>
 
           <div class="contact-grid">
-            <label class="field">Name *<input required type="text" name="name" /></label>
-            <label class="field">Phone *<input required type="tel" name="phone" /></label>
-            <label class="field wide">Email *<input required type="email" name="email" /></label>
-            <label class="field wide">Job address *<input required type="text" name="address" /></label>
+            <label class="field">Name *<input required type="text" name="name" autocomplete="name" /></label>
+            <label class="field">Phone *<input required type="tel" name="phone" autocomplete="tel" /></label>
+            <label class="field wide">Email *<input required type="email" name="email" autocomplete="email" /></label>
+            <label class="field wide">Job address *<input required type="text" name="address" autocomplete="street-address" /></label>
           </div>
           <div class="privacy-note">When you submit, your contact and job details are sent to Floorman Waikato. Selected photos are uploaded and stored for Jamie to review.</div>
         </section>
@@ -187,6 +187,6 @@
       <button class="primary" id="restartBtn">Start another enquiry</button>
     </section>
   </main>
-  <script src="script.js"></script>
+  <script src="flow-ui.js"></script><script src="script.js"></script>
 </body>
 </html>
