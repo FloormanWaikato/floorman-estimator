@@ -14,18 +14,18 @@
     <section class="intro" id="introScreen"><div class="intro-brand"><img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" /></div><p class="trust-message">30 Years’ Flooring Experience · Knowledge You Can Trust · Sound, Practical Advice · Free Quotes · <span class="reviews">★★★★★ Google Reviews</span></p>
       <p class="kicker">Your floor. Our experience.</p>
       <h2>Let’s find the right floor for you</h2>
-      <p>Tell us about your floor in five easy steps. Get an indicative estimate for timber, polished concrete or grind &amp; seal where the details allow. Jamie can advise on preparation and confirm your free quote.</p>
+      <p>Tell us about your floor in four simple steps. Get an indicative estimate for timber, polished concrete or grind &amp; seal where the details allow. Jamie can advise on preparation and confirm your free quote.</p>
       <div class="service-cards">
 <button class="service-card timber-card" type="button" id="startBtn"><img src="assets/timber-project.jpg" alt="Floorman finished timber floor with warm grain and window reflections" width="2048" height="1536" /><span class="service-copy"><strong>Timber floors</strong><span>Sanding and finishing for your timber floor.</span><span class="service-action">Start timber estimate →</span></span></button>
-<a class="service-card concrete-card" href="concrete.html"><img src="assets/concrete-project.jpg" alt="Completed Floorman polished concrete project" width="900" height="1200" /><span class="service-copy"><strong>Concrete floors</strong><span>Polished concrete, grind &amp; seal and floor preparation.</span><span class="service-action">Start concrete estimate →</span></span></a>
+<a class="service-card concrete-card" href="concrete.html"><img src="assets/concrete-project.jpg" alt="Floorman exposed-aggregate polished concrete reflecting clouds and windows" width="1536" height="2048" /><span class="service-copy"><strong>Concrete floors</strong><span>Polished concrete, grind &amp; seal and floor preparation.</span><span class="service-action">Start concrete estimate →</span></span></a>
 </div>
 <div class="notice">No need to know all the answers. Choose “Not sure” whenever you need Jamie’s advice. Photos are optional, and your final quote is free.</div>
 </section>
 
     <section class="wizard hidden" id="wizard"><div class="flow-brand"><img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" /><span>Timber floor estimate</span></div>
-      <div class="progress-wrap"><ol class="progress-stages" aria-label="Estimate stages"><li data-stage="1"><span>1</span>Service</li><li data-stage="2"><span>2</span>Your floor</li><li data-stage="3"><span>3</span>Finish</li><li data-stage="4"><span>4</span>Job details</li><li data-stage="5"><span>5</span>Contact</li></ol>
-        <div class="progress-copy"><span id="stepLabel">Step 1 of 5</span><span id="stepName">What do you want done?</span></div>
-        <div class="progress-track" role="progressbar" aria-label="Estimate progress" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-wrap"><ol class="progress-stages" aria-label="Estimate stages"><li data-stage="1"><span>1</span>Your floor</li><li data-stage="2"><span>2</span>Finish</li><li data-stage="3"><span>3</span>Job details</li><li data-stage="4"><span>4</span>Contact</li></ol>
+        <div class="progress-copy"><span id="stepLabel">Step 1 of 4</span><span id="stepName">What do you want done?</span></div>
+        <div class="progress-track" role="progressbar" aria-label="Estimate progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1"><div class="progress-fill" id="progressFill"></div></div>
       </div>
 
       <form id="estimateForm">
@@ -39,9 +39,7 @@
             <button type="button" class="choice" data-value="Other / Not sure"><strong>Other / Not sure</strong><span>Jamie can recommend the right approach.</span></button>
           </div>
           <label class="field hidden" id="serviceOtherWrap">Tell us briefly what you need<input type="text" name="service_other" placeholder="Optional note" /></label>
-        </section>
-
-        <section class="step" data-step="2">
+        <div id="floorDetails" class="hidden">
           <h2>Tell us about the floor</h2>
           <div class="field-group">
             <label class="field-label">Approximate area</label>
@@ -78,21 +76,22 @@
               <label>Do staples, tacks or carpet gripper need removing?<select name="carpet_fixings"><option value="">Choose one</option><option>Yes</option><option>No</option><option>Not sure</option></select></label>
             </div>
           </div>
-        </section>
+        </div></section>
 
-        <section class="step" data-step="3">
-          <h2>What result are you after?</h2>
+        <section class="step" data-step="2">
+          <h2>Finish and preparation</h2><div id="timberFinishOptions">
           <p class="helper">You choose the look. Floorman will recommend the most suitable coating system.</p>
           <div class="choice-grid single-choice" data-name="appearance">
             <button type="button" class="choice" data-value="Light / natural timber look"><strong>Light / natural</strong><span>Keeps the timber lighter and more natural looking.</span></button>
             <button type="button" class="choice" data-value="Traditional warmer / richer timber look"><strong>Warmer / richer</strong><span>A more traditional, deeper timber appearance.</span></button>
             <button type="button" class="choice" data-value="Stealth — super-matte natural finish"><strong>Stealth</strong><span>A super-matte, very natural finish.</span></button>
+            <button type="button" class="choice" data-value="Natural Oil Finish"><strong>Natural Oil Finish</strong><span>Enhances the natural character of the timber with a low-sheen, natural-looking finish.</span></button>
             <button type="button" class="choice" data-value="Stained finish"><strong>Stained finish</strong><span>Change or deepen the timber colour.</span></button>
             <button type="button" class="choice" data-value="Not sure — Jamie to recommend"><strong>Not sure</strong><span>Jamie can recommend the best finish.</span></button>
           </div>
 
-          <div class="field-group"><label class="field">Coating system (not needed for sanding only)<select name="finish"><option value="unknown">Not sure — Jamie to recommend</option><option value="water">2K water-based</option><option value="oil">Oil system</option><option value="stain">Stain &amp; 2K water-based</option></select></label><p class="helper">The appearance choice above helps Jamie understand your preferred look. Select a coating system for an indicative price.</p></div>
-          <div class="field-group"><h3>Preparation to include</h3><p class="helper">Yes includes this work across the full measured floor area. For partial areas, choose “Not sure” and describe them in comments for Jamie to price.</p>
+          <div class="field-group"><label class="field">Coating system (not needed for sanding only)<select name="finish"><option value="unknown">Not sure — Jamie to recommend</option><option value="water">2K water-based</option><option value="oil">Natural Oil Finish</option><option value="stain">Stain &amp; 2K water-based</option></select></label><p class="helper">The appearance choice above helps Jamie understand your preferred look. Select a coating system for an indicative price.</p></div>
+          </div><div class="field-group"><h3>Preparation to include</h3><p class="helper">Yes includes this work across the full measured floor area. For partial areas, choose “Not sure” and describe them in comments for Jamie to price.</p>
           <label class="field">Include epoxy gap filling?<select name="gapFilling"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
           <label class="field">Floorman to lift and dispose of carpet?<select name="carpetRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
           <label class="field">Floorman to remove tacks, staples or gripper?<select name="fixingsRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
@@ -114,7 +113,7 @@
           </div>
         </section>
 
-        <section class="step" data-step="4">
+        <section class="step" data-step="3">
           <h2>A few job details</h2>
           <label class="field">Number of large furniture items Floorman needs to move (excludes appliances)<input name="largeItems" type="number" min="0" max="10000" step="1" placeholder="0 if none; leave blank if unsure"></label>
           <label class="field">Does hardboard need removing? (site visit/TBC)<select name="hardboard"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
@@ -155,7 +154,7 @@
           </div>
         </section>
 
-        <section class="step" data-step="5">
+        <section class="step" data-step="4">
           <h2>Photos, comments and contact details</h2>
           <p class="helper">Photos are optional and help Jamie assess your floor and the work required.</p>
           <div class="upload-placeholder"><strong>Photo upload</strong><span>Overall floor, close-up of timber, and any damaged areas</span><span class="muted">Selected photos are uploaded when you submit your enquiry.</span></div>

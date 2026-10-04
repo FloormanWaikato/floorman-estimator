@@ -76,7 +76,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .flow-brand{margin-bottom:20px}
 .flow-brand span{color:var(--muted)}
 .progress-wrap{margin-bottom:28px}
-.progress-stages{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));list-style:none;margin:0 0 18px;padding:0;gap:6px}
+.progress-stages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none;margin:0 0 18px;padding:0;gap:6px}
 .progress-stages li{font-size:.8rem;font-weight:650;text-align:center;color:var(--muted)}
 .progress-stages li>span{display:grid;place-items:center;width:30px;height:30px;margin:0 auto 5px;background:var(--soft);border:1px solid var(--line);border-radius:50%;font-size:.85rem}
 .progress-stages li[aria-current="step"]{color:#85420e;font-weight:850}

@@ -1,7 +1,7 @@
 /* Shared presentation behaviour. Estimate and enquiry logic stays in each flow. */
 function updateFlowProgress(step) {
   document.querySelector('.progress-track').setAttribute('aria-valuenow', step);
-  document.querySelector('.progress-track').setAttribute('aria-valuetext', `Step ${step} of 5`);
+  document.querySelector('.progress-track').setAttribute('aria-valuetext', `Step ${step} of 4`);
   document.querySelectorAll('[data-stage]').forEach(stage => {
     const number = Number(stage.dataset.stage);
     stage.classList.toggle('complete', number < step);

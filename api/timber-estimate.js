@@ -2,6 +2,7 @@
 function pricingConfig() {
   let config;
   try { config = JSON.parse(process.env.TIMBER_PRICING_JSON); } catch { return null; }
+  if (config && typeof config === 'object' && !Array.isArray(config)) config.oil = 120;
   const keys = ['sand','water','oil','stain','gapFilling','carpetRemoval','fixingsRemoval','vinylRemoval','largeItem','minimum'];
   if (!config || !keys.every(key => typeof config[key] === 'number' && Number.isFinite(config[key]) && config[key] > 0)) return null;
   return config;
@@ -40,3 +41,4 @@ module.exports = function handler(req, res) {
   catch (error) { return res.status(400).json({error:error.message}); }
 };
 module.exports.calculateTimber = calculateTimber;
+

@@ -21,8 +21,7 @@ function calculateConcrete(input = {}) {
   return {
     status: low == null ? 'review' : low === high ? 'indicative' : 'range',
     total: low != null && low === high ? low : null,
-    low, high, rateLow, rateHigh, currency: 'NZD', gst: 'Includes 15% GST',
-    rateBasis: 'Rates per m² exclude GST',
+    low, high, currency: 'NZD', gst: 'Includes 15% GST',
     included: input.service === 'Full polished concrete' ? 'Polished concrete finish for the measured area' : input.service === 'Grind & seal' ? 'Grind & seal finish for the measured area' : '',
     review, disclaimer
   };
