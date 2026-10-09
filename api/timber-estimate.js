@@ -25,7 +25,7 @@ function calculateTimber(input = {}) {
   if (rates && rates.areaBands && area != null && finish) {
     baseRate = ['sand','vinyl','stain'].includes(finish) ? rates[finish] : rates.areaBands.find(b => area <= b.maxArea)?.rate;
     if (finish === 'vinyl' && input.substrate !== 'yes') {baseRate=null;review.push('Vinyl preparation substrate — Jamie to assess and price');}
-    if (!baseRate) review.push('Floor area above approved pricing range — Jamie to confirm');
+    if (!baseRate && ['water','oil'].includes(finish)) review.push('Floor area above approved pricing range — Jamie to confirm');
   }
   let subtotal = area == null || !finish || !rates || !baseRate ? null : area * baseRate;
   if (subtotal != null && rates.areaBands && !['sand','vinyl'].includes(finish) && area <= 10) subtotal = finish === 'stain' ? Math.max(rates.minimum, subtotal) : rates.minimum;
