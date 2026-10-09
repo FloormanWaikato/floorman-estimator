@@ -30,7 +30,7 @@ function timberInput(){
   let area=null;
   if(state.measure_mode==='Known area') area=Number(form.elements.known_area.value);
   if(state.measure_mode==='Room calculator') area=[...document.querySelectorAll('.room-row')].reduce((sum,row)=>sum+Number(row.querySelector('.room-length').value)*Number(row.querySelector('.room-width').value),0);
-  const details={area,...(state.service==='Floor preparation'?{preparationTarget:form.elements.prep_target.value,tongueGroove:form.elements.prep_tongue_groove.value}:{}),substrate:form.elements.prep_substrate.value,finish:state.service==='Floor preparation'?(form.elements.prep_target.value==='coating'&&form.elements.prep_substrate.value==='timber'?'sand':form.elements.prep_target.value==='vinyl'?'vinyl':'unknown'):(state.service?.startsWith('Sand & coat')?appearancePricingFinish():'unknown'),largeItems:form.elements.largeItems.value===''?null:Number(form.elements.largeItems.value)};
+  const details={area,...(state.service==='Floor preparation'?{preparationTarget:form.elements.prep_target.value,tongueGroove:form.elements.prep_tongue_groove.value}:{}),substrate:form.elements.prep_substrate.value,finish:state.service==='Floor preparation'?(form.elements.prep_target.value==='coating'&&form.elements.prep_substrate.value==='timber'?'sand':form.elements.prep_target.value==='vinyl'?'vinyl':'unknown'):(state.service?.startsWith('Sand & coat')?appearancePricingFinish():'unknown'),largeItems:state.service==='Floor preparation'?null:form.elements.largeItems.value===''?null:Number(form.elements.largeItems.value)};
   details.gapFilling=checked('condition').includes('Large or noticeable gaps')?'unknown':'no';
   details.carpetRemoval=value('covering')==='Carpet'?'unknown':'no';
   details.fixingsRemoval=value('covering')==='Carpet'?'unknown':'no';
@@ -50,7 +50,7 @@ function validateMeasurements(){
   if(area!==null&&(!Number.isFinite(area)||area<=0||area>100000)){showStep(1);alert('Please enter a valid positive floor area, or choose Not sure.');return false;}
   return true;
 }
-function preparationSummary(){return [['Removal / preparation','Jamie to price any carpet, vinyl/lino, hardboard, tacks, gripper, glue, gap filling or repairs after seeing the floor'],['Difficult coatings',form.elements.difficultCoatings.selectedOptions[0].text],['Large items to move',form.elements.largeItems.value||'TBC'],['Clearing notes',value('cleared_note')],['Service notes',value('service_other')]];}
+function preparationSummary(){return [['Removal / preparation','Jamie to price any carpet, vinyl/lino, hardboard, tacks, gripper, glue, gap filling or repairs after seeing the floor'],['Difficult coatings',form.elements.difficultCoatings.selectedOptions[0].text],...(state.service==='Floor preparation'?[]:[['Large items to move',form.elements.largeItems.value||'TBC']]),['Clearing notes',value('cleared_note')],['Service notes',value('service_other')]];}
 function renderEstimate(){document.getElementById('customerEmailStatus').textContent=state.customerEmailSent?'A copy has been sent to your email address. You can reply to Jamie with any questions.':'Your enquiry has been received. If your pricing email does not arrive, please contact Jamie.';const estimate=state.estimate;document.getElementById('estimateTotal').textContent=estimate?.total==null?'Jamie to confirm':new Intl.NumberFormat('en-NZ',{style:'currency',currency:'NZD'}).format(estimate.total);document.getElementById('estimateGst').textContent=estimate?.total==null?'GST will be stated with your confirmed pricing':estimate.gst+' · NZD';document.getElementById('estimateIncluded').textContent=estimate?.included||'';document.getElementById('estimateReview').innerHTML=(estimate?.review||[]).map(item=>'<li>'+escapeHtml(item)+'</li>').join('');document.getElementById('estimateDisclaimer').textContent=estimate?.disclaimer||'Jamie will review your enquiry and confirm pricing.';}
 
 
@@ -63,7 +63,7 @@ form.elements.prep_target.addEventListener('change',updatePreparationQuestions);
 form.elements.prep_substrate.addEventListener('change',updatePreparationQuestions);
 
 function setPreparationEntry(prep){
- document.querySelector('.step[data-step="1"] > h2').textContent=prep?'Your floor':'What do you want done?';
+ document.querySelector('.step[data-step="1"] > h2').classList.toggle('hidden',prep);document.getElementById('prepInputs').classList.toggle('hidden',!prep);document.querySelector('#floorDetails > h2').textContent=prep?'Tell us about your floor':'Tell us about the floor';document.getElementById('furnitureItemsQuestion').classList.toggle('hidden',prep);form.elements.largeItems.disabled=prep;
  document.querySelector('.step[data-step="1"] > .helper').classList.toggle('hidden',prep);
  document.querySelector('[data-name="service"]').classList.toggle('hidden',prep);
  document.getElementById('timberTypeOptions').classList.toggle('hidden',prep);
