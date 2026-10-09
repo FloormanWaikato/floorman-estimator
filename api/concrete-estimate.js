@@ -1,4 +1,5 @@
 const disclaimer = 'Indicative only, not a quote. Jamie will confirm measurements, slab condition, preparation and finish after reviewing your details/photos or a site visit. Additional preparation, repairs and travel are excluded and may increase the final price.';
+const defectDisclaimer = 'Existing concrete defects: We take care to achieve the best possible finish. However, existing cracks, holes, patches, oil stains or other defects may remain visible after grinding, polishing or sealing. Repairs may differ in colour or texture from the surrounding concrete. Jamie will assess these areas and explain the likely result before work begins.';
 const money = amount => Math.round((amount + Number.EPSILON) * 100) / 100;
 function calculateConcrete(input = {}) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Invalid concrete details');
@@ -26,7 +27,7 @@ function calculateConcrete(input = {}) {
     total: low != null && low === high ? low : null,
     low, high, currency: 'NZD', gst: 'Includes 15% GST',
     included: input.service === 'Full polished concrete' ? 'Polished concrete finish for the measured area' : input.service === 'Grind & seal' ? 'Grind & seal finish for the measured area' : '',
-    review, disclaimer
+    review, disclaimer: Array.isArray(input.conditions) && input.conditions.some(condition=>['Cracks','Holes or damaged areas','Existing repairs or patches','Oil, stains or contamination'].includes(condition)) ? disclaimer+'\n\n'+defectDisclaimer : disclaimer
   };
 }
 module.exports = function handler(req, res) {

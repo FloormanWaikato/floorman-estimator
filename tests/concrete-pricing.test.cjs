@@ -79,3 +79,16 @@ test('Concrete prices reach the response, both emails and Dropbox record', async
     assert.equal(emails.filter(email=>email.scheduled_at).length,1);
   }
 });
+
+test('selected concrete defects add approved explanation to result and customer email', () => {
+  const {buildAcknowledgement}=require('../api/enquiry');
+  for(const condition of ['Cracks','Holes or damaged areas','Existing repairs or patches','Oil, stains or contamination']) {
+    const estimate=calculateConcrete({area:20,service:'Full polished concrete',conditions:[condition]});
+    assert.ok(estimate.disclaimer.includes('some defects') || estimate.disclaimer.includes('defects may remain visible'));
+    assert.equal(estimate.total,2530);
+    const email=buildAcknowledgement({name:'Test',email:'preview@example.com'},'Concrete',[],[],estimate);
+    assert.ok(email.text.includes('Repairs may differ in colour or texture'));
+    assert.ok(email.html.includes('Repairs may differ in colour or texture'));
+  }
+  assert.ok(!calculateConcrete({area:20,service:'Full polished concrete',conditions:['Nothing obvious']}).disclaimer.includes('Existing concrete defects'));
+});

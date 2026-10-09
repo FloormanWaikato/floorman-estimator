@@ -30,7 +30,7 @@ function concreteInput(){
   let area = null;
   if(state.measure_mode === 'Known area') area = Number(form.elements.known_area.value);
   if(state.measure_mode === 'Room calculator') area = [...document.querySelectorAll('.room-row')].reduce((total,row)=>total+Number(row.querySelector('.room-length').value)*Number(row.querySelector('.room-width').value),0);
-  return {area,service:state.service,sealer:state.sealer,surface:form.elements.covering.value};
+  return {area,service:state.service,sealer:state.sealer,surface:form.elements.covering.value,conditions:[...form.querySelectorAll('input[name="condition"]:checked')].map(box=>box.value)};
 }
 function validateConcreteMeasurements(){
   if(state.measure_mode === 'Room calculator'){
