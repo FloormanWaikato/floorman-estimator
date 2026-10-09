@@ -6,6 +6,7 @@ function calculateConcrete(input = {}) {
   if (area != null && (typeof area !== 'number' || !Number.isFinite(area) || area <= 0 || area > 100000)) throw new Error('Enter a valid positive floor area, or choose Not sure');
   const review = ['Additional preparation / levelling and repairs — discuss with Jamie', 'Travel — TBC'];
   if (area == null) review.unshift('Floor area — TBC');
+  if (input.surface && input.surface !== 'Bare concrete') review.unshift('Existing surface preparation — Jamie to confirm additional costs upon inspection');
   let rateLow = null, rateHigh = null;
   if (input.service === 'Full polished concrete') rateLow = rateHigh = 110;
   else if (input.service === 'Grind & seal') {
