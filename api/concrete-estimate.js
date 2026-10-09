@@ -1,3 +1,4 @@
+const {calculatePreparation}=require('./timber-estimate');
 const disclaimer = 'Indicative only, not a quote. Jamie will confirm measurements, slab condition, preparation and finish after reviewing your details/photos or a site visit. Additional preparation, repairs and travel are excluded and may increase the final price.';
 const defectDisclaimer = 'Existing concrete defects: We take care to achieve the best possible finish. However, existing cracks, holes, patches, oil stains or other defects may remain visible after grinding, polishing or sealing. Repairs may differ in colour or texture from the surrounding concrete. Jamie will assess these areas and explain the likely result before work begins.';
 const money = amount => Math.round((amount + Number.EPSILON) * 100) / 100;
@@ -5,6 +6,7 @@ function calculateConcrete(input = {}) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Invalid concrete details');
   const area = input.area;
   if (area != null && (typeof area !== 'number' || !Number.isFinite(area) || area <= 0 || area > 100000)) throw new Error('Enter a valid positive floor area, or choose Not sure');
+  if(input.service==='Floor preparation / levelling'&&input.preparationTarget!==undefined){const estimate=calculatePreparation(input);return {...estimate,low:estimate.total,high:estimate.total,disclaimer:Array.isArray(input.conditions)&&input.conditions.some(condition=>['Cracks','Holes or damaged areas','Existing repairs or patches','Oil, stains or contamination'].includes(condition))?disclaimer+'\n\n'+defectDisclaimer:disclaimer};}
   const review = ['Additional preparation / levelling and repairs — discuss with Jamie', 'Travel — TBC'];
   if (area == null) review.unshift('Floor area — TBC');
   if (input.surface && input.surface !== 'Bare concrete') review.unshift('Existing surface preparation — Jamie to confirm additional costs upon inspection');

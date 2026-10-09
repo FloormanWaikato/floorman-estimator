@@ -18,6 +18,7 @@ function calculateTimber(input = {}) {
   if (!rates) review.push('Jamie will review your enquiry and confirm pricing.');
   const area = input.area;
   if (area != null && (typeof area !== 'number' || !Number.isFinite(area) || area <= 0 || area > 100000)) throw new Error('Enter a valid floor area');
+  if(input.preparationTarget !== undefined) return calculatePreparation(input);
   const finish = ['sand','water','oil','stain','vinyl'].includes(input.finish) ? input.finish : null;
   if (!finish) review.push('Service/coating system — Jamie to recommend');
   if (area == null) review.push('Floor area — TBC');
@@ -58,3 +59,11 @@ module.exports = function handler(req, res) {
 };
 module.exports.calculateTimber = calculateTimber;
 
+
+function calculatePreparation(input={}) {
+  const rates=pricingConfig();
+  const rate=input.preparationTarget==='vinyl'?rates?.vinyl:input.preparationTarget==='coating'&&input.substrate==='timber'&&input.tongueGroove==='yes'?rates?.sand:null;
+  const total=input.area!=null&&Number.isFinite(rate)&&rate>0?Math.round(input.area*rate*115)/100:null;
+  return {status:total==null?'review':'indicative',total,currency:'NZD',gst:'Includes 15% GST',included:'Floor preparation for the selected covering',review:['Travel — TBC','Existing covering removal, repairs and levelling — Jamie to confirm after inspection',...(total==null?['Preparation scope and pricing — Jamie to confirm']:[])],disclaimer};
+}
+module.exports.calculatePreparation=calculatePreparation;
