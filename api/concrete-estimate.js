@@ -13,6 +13,7 @@ function calculateConcrete(input = {}) {
   else if (input.service === 'Grind & seal') {
     if (input.sealer === 'Concrete sealer') rateLow = rateHigh = 65;
     else if (input.sealer === 'Epoxy sealer') rateLow = rateHigh = 85;
+    else if (['Marine-grade urethane — Gloss','Marine-grade urethane — Matte'].includes(input.sealer)) review.unshift('Marine-grade urethane coating — Jamie to confirm scope and pricing');
     else {
       rateLow = 65; rateHigh = 85;
       review.unshift('Sealer type — Jamie to recommend');
