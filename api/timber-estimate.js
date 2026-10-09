@@ -62,8 +62,8 @@ module.exports.calculateTimber = calculateTimber;
 
 function calculatePreparation(input={}) {
   const rates=pricingConfig();
-  const rate=input.preparationTarget==='vinyl'?rates?.vinyl:input.preparationTarget==='coating'&&input.substrate==='timber'&&input.tongueGroove==='yes'?rates?.sand:null;
+  const rate=input.preparationTarget==='vinyl'?(input.substrate==='timber'?rates?.vinyl:input.substrate==='concrete'?rates?.vinylConcrete:null):input.preparationTarget==='coating'&&input.substrate==='timber'&&input.tongueGroove==='yes'?rates?.sand:null;
   const total=input.area!=null&&Number.isFinite(rate)&&rate>0?Math.round(input.area*rate*115)/100:null;
-  return {status:total==null?'review':'indicative',total,currency:'NZD',gst:'Includes 15% GST',included:'Floor preparation for the selected covering',review:['Travel — TBC','Existing covering removal, repairs and levelling — Jamie to confirm after inspection',...(total==null?['Preparation scope and pricing — Jamie to confirm']:[])],disclaimer};
+  return {status:total==null?'review':'indicative',total,currency:'NZD',gst:'Includes 15% GST',included:input.preparationTarget==='vinyl'&&input.substrate==='timber'?'Hardboard overlay — Jamie to confirm suitability after inspection':input.preparationTarget==='vinyl'&&input.substrate==='concrete'?'Grind and skim preparation — Jamie to confirm suitability after inspection':'Floor preparation for the selected covering',review:['Travel — TBC','Existing covering removal, repairs and levelling — Jamie to confirm after inspection',...(total==null?['Preparation scope and pricing — Jamie to confirm']:[])],disclaimer};
 }
 module.exports.calculatePreparation=calculatePreparation;
