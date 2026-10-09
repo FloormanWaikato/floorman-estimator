@@ -2,7 +2,10 @@
 function pricingConfig() {
   let config;
   try { config = JSON.parse(process.env.TIMBER_PRICING_JSON); } catch { return null; }
-  if (config && typeof config === 'object' && !Array.isArray(config)) config.oil = 120;
+  if (config && config.areaBands) {
+    if (!Array.isArray(config.areaBands) || !config.areaBands.length || !config.areaBands.every(b => Number.isFinite(b.maxArea) && b.maxArea > 0 && Number.isFinite(b.rate) && b.rate > 0) || !Number.isFinite(config.stain) || config.stain <= 0 || !Number.isFinite(config.minimum) || config.minimum <= 0) return null;
+    return config;
+  }
   const keys = ['sand','water','oil','stain','gapFilling','carpetRemoval','fixingsRemoval','vinylRemoval','largeItem','minimum'];
   if (!config || !keys.every(key => typeof config[key] === 'number' && Number.isFinite(config[key]) && config[key] > 0)) return null;
   return config;
@@ -18,16 +21,28 @@ function calculateTimber(input = {}) {
   const finish = ['sand','water','oil','stain'].includes(input.finish) ? input.finish : null;
   if (!finish) review.push('Service/coating system — Jamie to recommend');
   if (area == null) review.push('Floor area — TBC');
-  let subtotal = area == null || !finish || !rates ? null : area * rates[finish];
+  let baseRate = rates && finish ? rates[finish] : null;
+  if (rates && rates.areaBands && area != null && finish) {
+    baseRate = finish === 'stain' ? rates.stain : rates.areaBands.find(b => area <= b.maxArea)?.rate;
+    if (!baseRate) review.push('Floor area above approved pricing range — Jamie to confirm');
+  }
+  let subtotal = area == null || !finish || !rates || !baseRate ? null : area * baseRate;
+  if (subtotal != null && rates.areaBands && area <= 10) subtotal = finish === 'stain' ? Math.max(rates.minimum, subtotal) : rates.minimum;
   for (const [key, label] of [['gapFilling','Gap filling'],['carpetRemoval','Carpet removal'],['fixingsRemoval','Tacks/staples/gripper removal'],['vinylRemoval','Normal vinyl/lino removal']]) {
     const choice = input[key];
     if (!['yes','no','unknown'].includes(choice)) throw new Error(`Choose ${label.toLowerCase()}`);
     if (choice === 'unknown') review.push(`${label} — TBC`);
-    if (choice === 'yes' && subtotal != null) subtotal += area * rates[key];
+    if (choice === 'yes' && subtotal != null) {
+      if (Number.isFinite(rates[key]) && rates[key] > 0) subtotal += area * rates[key];
+      else review.push(`${label} — TBC`);
+    }
   }
   if (input.largeItems == null) review.push('Large items to move — TBC');
   else if (!Number.isInteger(input.largeItems) || input.largeItems < 0 || input.largeItems > 10000) throw new Error('Enter a whole number of large items');
-  else if (subtotal != null) subtotal += input.largeItems * rates.largeItem;
+  else if (subtotal != null && input.largeItems > 0) {
+    if (Number.isFinite(rates.largeItem) && rates.largeItem > 0) subtotal += input.largeItems * rates.largeItem;
+    else review.push('Large items to move — TBC');
+  }
   for (const [key,label] of [['hardboard','Hardboard removal — site visit/TBC'],['stairs','Stairs — priced separately/TBC'],['difficultCoatings','Heavy glue/adhesive, paint or difficult coatings — review/TBC']]) {
     if (!['yes','no','unknown'].includes(input[key])) throw new Error('Complete the review questions');
     if (input[key] !== 'no') review.push(label);
