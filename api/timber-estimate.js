@@ -18,16 +18,17 @@ function calculateTimber(input = {}) {
   if (!rates) review.push('Jamie will review your enquiry and confirm pricing.');
   const area = input.area;
   if (area != null && (typeof area !== 'number' || !Number.isFinite(area) || area <= 0 || area > 100000)) throw new Error('Enter a valid floor area');
-  const finish = ['sand','water','oil','stain'].includes(input.finish) ? input.finish : null;
+  const finish = ['sand','water','oil','stain','vinyl'].includes(input.finish) ? input.finish : null;
   if (!finish) review.push('Service/coating system — Jamie to recommend');
   if (area == null) review.push('Floor area — TBC');
   let baseRate = rates && finish ? rates[finish] : null;
   if (rates && rates.areaBands && area != null && finish) {
-    baseRate = finish === 'stain' ? rates.stain : rates.areaBands.find(b => area <= b.maxArea)?.rate;
+    baseRate = ['sand','vinyl','stain'].includes(finish) ? rates[finish] : rates.areaBands.find(b => area <= b.maxArea)?.rate;
+    if (finish === 'vinyl' && input.substrate !== 'yes') {baseRate=null;review.push('Vinyl preparation substrate — Jamie to assess and price');}
     if (!baseRate) review.push('Floor area above approved pricing range — Jamie to confirm');
   }
   let subtotal = area == null || !finish || !rates || !baseRate ? null : area * baseRate;
-  if (subtotal != null && rates.areaBands && area <= 10) subtotal = finish === 'stain' ? Math.max(rates.minimum, subtotal) : rates.minimum;
+  if (subtotal != null && rates.areaBands && !['sand','vinyl'].includes(finish) && area <= 10) subtotal = finish === 'stain' ? Math.max(rates.minimum, subtotal) : rates.minimum;
   for (const [key, label] of [['gapFilling','Gap filling'],['carpetRemoval','Carpet removal'],['fixingsRemoval','Tacks/staples/gripper removal'],['vinylRemoval','Normal vinyl/lino removal']]) {
     const choice = input[key];
     if (!['yes','no','unknown'].includes(choice)) throw new Error(`Choose ${label.toLowerCase()}`);
@@ -47,7 +48,7 @@ function calculateTimber(input = {}) {
     if (!['yes','no','unknown'].includes(input[key])) throw new Error('Complete the review questions');
     if (input[key] !== 'no') review.push(label);
   }
-  const total = subtotal == null ? null : Math.round(Math.max(rates.minimum, subtotal) * 115) / 100;
+  const total = subtotal == null ? null : Math.round((['sand','vinyl'].includes(finish)?subtotal:Math.max(rates.minimum, subtotal)) * 115) / 100;
   return { status: total == null ? 'review' : 'indicative', total, currency: 'NZD', gst: 'Includes 15% GST', review, disclaimer, included: 'Nail punching included' };
 }
 module.exports = function handler(req, res) {

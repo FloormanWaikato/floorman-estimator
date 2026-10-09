@@ -33,10 +33,9 @@
           <h2>What do you want done?</h2>
           <p class="helper">Choose the option that best describes the job.</p>
           <div class="choice-grid single-choice" data-name="service">
-            <button type="button" class="choice" data-value="Sanding only"><strong>Sanding only</strong><span>Prepare the timber floor without a new coating system.</span></button>
-            <button type="button" class="choice" data-value="Sand & coat — existing timber floor"><strong>Sand & coat</strong><span>Existing timber floor to be sanded and refinished.</span></button>
+            <button type="button" class="choice" data-value="Sand & coat — existing timber floor"><strong>Sand and coat finish</strong><span>Existing timber floor to be sanded and refinished.</span></button>
             <button type="button" class="choice" data-value="Sand & coat — oil finish"><strong>Sand and oil finish</strong><span>Sand the timber and apply a natural oil finish.</span></button>
-            <button type="button" class="choice" data-value="Other / Not sure"><strong>Other / Not sure</strong><span>Jamie can recommend the right approach.</span></button>
+            <button type="button" class="choice" data-value="Floor preparation"><strong>Floor preparation</strong><span>Prepare the floor for a coating or new vinyl.</span></button>
           </div>
           <label class="field hidden" id="serviceOtherWrap">Tell us briefly what you need<input type="text" name="service_other" placeholder="Optional note" /></label>
         <div id="floorDetails" class="hidden">
@@ -76,7 +75,7 @@
         </div></section>
 
         <section class="step" data-step="2">
-          <h2>Your finish</h2><div id="timberFinishOptions">
+          <h2>Your finish</h2><div id="preparationOptions" class="hidden"><label class="field">What will be going on the floor?<select name="prep_target" id="prepTarget"><option value="unknown">Not sure</option><option value="coating">Coating</option><option value="vinyl">Vinyl</option></select></label><label class="field hidden" id="prepSubstrate">Is the floor tongue-and-groove timber?<select name="prep_substrate"><option value="unknown">Not sure</option><option value="yes">Yes</option><option value="no">No</option></select></label><p class="helper">Jamie will assess the preparation required and confirm pricing. Existing covering removal and repairs are priced after inspection.</p></div><div id="timberFinishOptions">
           <p class="helper">You choose the look. Floorman will recommend the most suitable coating system.</p>
           <div class="choice-grid single-choice" data-name="appearance">
             <button type="button" class="choice" data-value="Light / natural timber look"><img class="finish-photo" src="assets/light-natural.jpg" alt="Light / natural timber floor" loading="lazy" width="640" height="480" /><strong>Light / natural</strong><span>Keeps the timber lighter and more natural looking.</span></button>
