@@ -134,3 +134,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 .low-sheen-photo{object-position:center 31%}
 .full-polish-photo{object-position:center 12%}
+
+/* Keep dropdown focus indicators clear of the explanatory text below. */
+select + .helper{margin-top:16px}
+select:focus-visible{outline-width:2px;outline-offset:2px}
