@@ -19,7 +19,7 @@ function calculateTimber(input = {}) {
   if (!finish) review.push('Service/coating system — Jamie to recommend');
   if (area == null) review.push('Floor area — TBC');
   let subtotal = area == null || !finish || !rates ? null : area * rates[finish];
-  for (const [key, label] of [['gapFilling','Epoxy gap filling'],['carpetRemoval','Carpet removal'],['fixingsRemoval','Tacks/staples/gripper removal'],['vinylRemoval','Normal vinyl/lino removal']]) {
+  for (const [key, label] of [['gapFilling','Gap filling'],['carpetRemoval','Carpet removal'],['fixingsRemoval','Tacks/staples/gripper removal'],['vinylRemoval','Normal vinyl/lino removal']]) {
     const choice = input[key];
     if (!['yes','no','unknown'].includes(choice)) throw new Error(`Choose ${label.toLowerCase()}`);
     if (choice === 'unknown') review.push(`${label} — TBC`);

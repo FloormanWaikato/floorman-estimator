@@ -12,12 +12,12 @@
     
 
     <section class="intro" id="introScreen"><div class="intro-brand"><img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" /></div><p class="trust-message">30 Years’ Flooring Experience · Knowledge You Can Trust · Sound, Practical Advice · Free Quotes · <span class="reviews">★★★★★ Google Reviews</span></p>
-      <p class="kicker">Your floor. Our experience.</p>
+      <p class="kicker">Floorman Floor Intelligence</p>
       <h2>Let’s find the right floor for you</h2>
       <p>Tell us about your floor in four simple steps. Get an indicative estimate for timber, polished concrete or grind &amp; seal where the details allow. Jamie can advise on preparation and confirm your free quote.</p>
       <div class="service-cards">
-<button class="service-card timber-card" type="button" id="startBtn"><img src="assets/timber-project.jpg" alt="Floorman finished timber floor with warm grain and window reflections" width="2048" height="1536" /><span class="service-copy"><strong>Timber floors</strong><span>Sanding and finishing for your timber floor.</span><span class="service-action">Start timber estimate →</span></span></button>
-<a class="service-card concrete-card" href="concrete.html"><img src="assets/concrete-project.jpg" alt="Floorman exposed-aggregate polished concrete reflecting clouds and windows" width="1536" height="2048" /><span class="service-copy"><strong>Concrete floors</strong><span>Polished concrete, grind &amp; seal and floor preparation.</span><span class="service-action">Start concrete estimate →</span></span></a>
+<button class="service-card timber-card" type="button" id="startBtn"><img src="assets/timber-project.jpg" alt="Floorman finished timber floor with warm grain and window reflections" width="2048" height="1536" /><span class="service-copy"><strong>Timber floors</strong><span>Water base urethanes, Solvent base urethanes, Oil Systems, Staining systems.</span><span class="service-action">Start timber estimate →</span></span></button>
+<a class="service-card concrete-card" href="concrete.html"><img src="assets/concrete-project.jpg" alt="Floorman exposed-aggregate polished concrete reflecting clouds and windows" width="1536" height="2048" /><span class="service-copy"><strong>Concrete floors</strong><span>Polished concrete, grind &amp; seal, Bush Hammer and floor preparation.</span><span class="service-action">Start concrete estimate →</span></span></a>
 </div>
 <div class="notice">No need to know all the answers. Choose “Not sure” whenever you need Jamie’s advice. Photos are optional, and your final quote is free.</div>
 </section>
@@ -28,14 +28,14 @@
         <div class="progress-track" role="progressbar" aria-label="Estimate progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1"><div class="progress-fill" id="progressFill"></div></div>
       </div>
 
-      <form id="estimateForm">
+      <div class="flow-controls"><button type="button" class="secondary small" id="cancelBtn">Cancel / Start Again</button><button type="button" class="secondary small" id="changeTypeBtn">Change Flooring Type</button></div><form id="estimateForm">
         <section class="step active" data-step="1">
           <h2>What do you want done?</h2>
           <p class="helper">Choose the option that best describes the job.</p>
           <div class="choice-grid single-choice" data-name="service">
             <button type="button" class="choice" data-value="Sanding only"><strong>Sanding only</strong><span>Prepare the timber floor without a new coating system.</span></button>
             <button type="button" class="choice" data-value="Sand & coat — existing timber floor"><strong>Sand & coat</strong><span>Existing timber floor to be sanded and refinished.</span></button>
-            <button type="button" class="choice" data-value="Sand & coat — new timber floor"><strong>Sand & coat — new floor</strong><span>Newly installed timber flooring requiring sanding and finishing.</span></button>
+            <button type="button" class="choice" data-value="Sand & coat — oil finish"><strong>Sand and oil finish</strong><span>Sand the timber and apply a natural oil finish.</span></button>
             <button type="button" class="choice" data-value="Other / Not sure"><strong>Other / Not sure</strong><span>Jamie can recommend the right approach.</span></button>
           </div>
           <label class="field hidden" id="serviceOtherWrap">Tell us briefly what you need<input type="text" name="service_other" placeholder="Optional note" /></label>
@@ -82,17 +82,17 @@
           <h2>Finish and preparation</h2><div id="timberFinishOptions">
           <p class="helper">You choose the look. Floorman will recommend the most suitable coating system.</p>
           <div class="choice-grid single-choice" data-name="appearance">
-            <button type="button" class="choice" data-value="Light / natural timber look"><strong>Light / natural</strong><span>Keeps the timber lighter and more natural looking.</span></button>
-            <button type="button" class="choice" data-value="Traditional warmer / richer timber look"><strong>Warmer / richer</strong><span>A more traditional, deeper timber appearance.</span></button>
-            <button type="button" class="choice" data-value="Stealth — super-matte natural finish"><strong>Stealth</strong><span>A super-matte, very natural finish.</span></button>
-            <button type="button" class="choice" data-value="Natural Oil Finish"><strong>Natural Oil Finish</strong><span>Enhances the natural character of the timber with a low-sheen, natural-looking finish.</span></button>
-            <button type="button" class="choice" data-value="Stained finish"><strong>Stained finish</strong><span>Change or deepen the timber colour.</span></button>
+            <button type="button" class="choice" data-value="Light / natural timber look"><img class="finish-photo" src="assets/light-natural.jpg" alt="Light / natural timber floor" loading="lazy" width="640" height="480" /><strong>Light / natural</strong><span>Keeps the timber lighter and more natural looking.</span></button>
+            <button type="button" class="choice" data-value="Traditional warmer / richer timber look"><img class="finish-photo" src="assets/warmer-richer.jpg" alt="Warmer / richer timber floor" loading="lazy" width="640" height="480" /><strong>Warmer / richer</strong><span>A more traditional, deeper timber appearance.</span></button>
+            <button type="button" class="choice" data-value="Stealth — super-matte natural finish"><img class="finish-photo" src="assets/stealth.jpg" alt="Stealth super-matte timber floor" loading="lazy" width="640" height="480" /><strong>Stealth</strong><span>A super-matte, very natural finish.</span></button>
+            <button type="button" class="choice" data-value="Natural Oil Finish"><img class="finish-photo" src="assets/natural-oil.jpg" alt="Natural Oil Finish" loading="lazy" width="640" height="480" /><strong>Natural Oil Finish</strong><span>Enhances the natural character of the timber with a low-sheen, natural-looking finish.</span></button>
+            <button type="button" class="choice" data-value="Stained finish"><div class="photo-pair"><img class="finish-photo" src="assets/stained-brown.jpg" alt="Brown stained timber floor" loading="lazy" width="640" height="480" /><img class="finish-photo" src="assets/stained-grey-brown.jpg" alt="Grey-brown stained timber floor" loading="lazy" width="640" height="480" /></div><strong>Stained finish</strong><span>Change or deepen the timber colour.</span></button>
             <button type="button" class="choice" data-value="Not sure — Jamie to recommend"><strong>Not sure</strong><span>Jamie can recommend the best finish.</span></button>
           </div>
 
-          <div class="field-group" id="coatingSystemChoices"><label class="field">Coating system (not needed for sanding only)<select name="finish"><option value="unknown">Not sure — Jamie to recommend</option><option value="water">2K water-based</option><option value="oil">Natural Oil Finish</option><option value="stain">Stain &amp; 2K water-based</option></select></label><p class="helper">The appearance choice above helps Jamie understand your preferred look. Select a coating system for an indicative price.</p></div>
+          <div class="field-group"><label class="field-label">Preferred sheen</label><div class="choice-grid single-choice" data-name="sheen"><button type="button" class="choice" data-value="Gloss"><img class="finish-photo" src="assets/gloss.jpg" alt="Gloss" loading="lazy" width="640" height="480" /><strong>Gloss</strong><span>A high-shine timber finish.</span></button><button type="button" class="choice" data-value="Semi-Gloss"><img class="finish-photo" src="assets/semi-gloss.jpg" alt="Semi-Gloss" loading="lazy" width="640" height="480" /><strong>Semi-Gloss</strong><span>A balanced sheen with a soft shine.</span></button><button type="button" class="choice" data-value="Matte"><img class="finish-photo" src="assets/matte.jpg" alt="Matte" loading="lazy" width="640" height="480" /><strong>Matte</strong><span>A low-sheen timber finish.</span></button><button type="button" class="choice" data-value="Not sure"><strong>Not sure</strong><span>Jamie can recommend the right sheen.</span></button></div><p class="helper">Photos show real Floorman projects. Timber, lighting and finish can affect the final appearance.</p></div><div class="field-group" id="coatingSystemChoices"><label class="field">Coating system (not needed for sanding only)<select name="finish"><option value="unknown">Not sure — Jamie to recommend</option><option value="water">2K water-based</option><option value="oil">Natural Oil Finish</option><option value="stain">Stain &amp; 2K water-based</option></select></label><p class="helper">The appearance choice above helps Jamie understand your preferred look. Select a coating system for an indicative price.</p></div>
           </div><div class="field-group"><h3>Preparation to include</h3><p class="helper">Yes includes this work across the full measured floor area. For partial areas, choose “Not sure” and describe them in comments for Jamie to price.</p>
-          <label class="field">Include epoxy gap filling?<select name="gapFilling"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+          <label class="field">Include gap filling?<select name="gapFilling"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
           <label class="field">Floorman to lift and dispose of carpet?<select name="carpetRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
           <label class="field">Floorman to remove tacks, staples or gripper?<select name="fixingsRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
           <label class="field">Floorman to remove normal vinyl/lino?<select name="vinylRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
