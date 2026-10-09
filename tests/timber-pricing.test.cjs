@@ -48,6 +48,6 @@ test('approved area bands, minimum and staining remain server-only', t => {
   assert.equal(calculateTimber({...input,area:5,finish:'stain'}).total,747.5);
   const extras=calculateTimber({...input,area:20,gapFilling:'yes',largeItems:2});
   assert.equal(extras.total,1955);
-  assert.ok(extras.review.includes('Gap filling — TBC'));
+  assert.ok(extras.review.includes('Gap filling — Jamie to price after inspection'));
   assert.ok(extras.review.includes('Large items to move — TBC'));
 });

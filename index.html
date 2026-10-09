@@ -9,7 +9,7 @@
 </head>
 <body>
   <main class="app-shell">
-    
+
 
     <section class="intro" id="introScreen"><div class="intro-brand"><img class="brand-logo" src="assets/floorman-original-logo.jpg" alt="Floorman Waikato — polished concrete and timber floors" width="291" height="173" /></div><p class="trust-message">30 Years’ Flooring Experience · Knowledge You Can Trust · Sound, Practical Advice · Free Quotes · <span class="reviews">★★★★★ Google Reviews</span></p>
       <p class="kicker">Floorman Floor Intelligence</p>
@@ -69,17 +69,14 @@
             <label class="field-label">What is on the floor now?</label>
             <select name="covering" id="coveringSelect">
               <option value="">Choose one</option>
-              <option>Bare timber</option><option>Existing polyurethane/coating</option><option>Carpet</option><option>Vinyl/lino</option><option>Other</option><option>Not sure</option>
+              <option>Bare timber</option><option>Existing polyurethane/coating</option><option>Carpet</option><option>Vinyl/lino</option><option>Hardboard</option><option>Other</option><option>Not sure</option>
             </select>
-            <div class="conditional hidden" id="carpetQuestions">
-              <label>Will the carpet already be removed before we arrive?<select name="carpet_removed"><option value="">Choose one</option><option>Yes</option><option>No</option><option>Not sure</option></select></label>
-              <label>Do staples, tacks or carpet gripper need removing?<select name="carpet_fixings"><option value="">Choose one</option><option>Yes</option><option>No</option><option>Not sure</option></select></label>
-            </div>
+            <p class="helper">Carpet, vinyl/lino, hardboard, tacks, gripper and glue removal are excluded from this estimate. Jamie will price any removal needed after seeing the floor.</p>
           </div>
         </div></section>
 
         <section class="step" data-step="2">
-          <h2>Finish and preparation</h2><div id="timberFinishOptions">
+          <h2>Your finish</h2><div id="timberFinishOptions">
           <p class="helper">You choose the look. Floorman will recommend the most suitable coating system.</p>
           <div class="choice-grid single-choice" data-name="appearance">
             <button type="button" class="choice" data-value="Light / natural timber look"><img class="finish-photo" src="assets/light-natural.jpg" alt="Light / natural timber floor" loading="lazy" width="640" height="480" /><strong>Light / natural</strong><span>Keeps the timber lighter and more natural looking.</span></button>
@@ -90,13 +87,8 @@
             <button type="button" class="choice" data-value="Not sure — Jamie to recommend"><strong>Not sure</strong><span>Jamie can recommend the best finish.</span></button>
           </div>
 
-          <div class="field-group"><label class="field-label">Preferred sheen</label><div class="choice-grid single-choice" data-name="sheen"><button type="button" class="choice" data-value="Gloss"><img class="finish-photo" src="assets/gloss.jpg" alt="Gloss" loading="lazy" width="640" height="480" /><strong>Gloss</strong><span>A high-shine timber finish.</span></button><button type="button" class="choice" data-value="Semi-Gloss"><img class="finish-photo" src="assets/semi-gloss.jpg" alt="Semi-Gloss" loading="lazy" width="640" height="480" /><strong>Semi-Gloss</strong><span>A balanced sheen with a soft shine.</span></button><button type="button" class="choice" data-value="Matte"><img class="finish-photo" src="assets/matte.jpg" alt="Matte" loading="lazy" width="640" height="480" /><strong>Matte</strong><span>A low-sheen timber finish.</span></button><button type="button" class="choice" data-value="Not sure"><strong>Not sure</strong><span>Jamie can recommend the right sheen.</span></button></div><p class="helper">Photos show real Floorman projects. Timber, lighting and finish can affect the final appearance.</p></div><div class="field-group" id="coatingSystemChoices"><label class="field">Coating system (not needed for sanding only)<select name="finish"><option value="unknown">Not sure — Jamie to recommend</option><option value="water">2K water-based</option><option value="oil">Natural Oil Finish</option><option value="stain">Stain &amp; 2K water-based</option></select></label><p class="helper">The appearance choice above helps Jamie understand your preferred look. Select a coating system for an indicative price.</p></div>
-          </div><div class="field-group"><h3>Preparation to include</h3><p class="helper">Yes includes this work across the full measured floor area. For partial areas, choose “Not sure” and describe them in comments for Jamie to price.</p>
-          <label class="field">Include gap filling?<select name="gapFilling"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
-          <label class="field">Floorman to lift and dispose of carpet?<select name="carpetRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
-          <label class="field">Floorman to remove tacks, staples or gripper?<select name="fixingsRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
-          <label class="field">Floorman to remove normal vinyl/lino?<select name="vinylRemoval"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
-          <p class="helper">Nail punching is included.</p></div>
+          <div class="field-group"><label class="field-label">Preferred sheen</label><div class="choice-grid single-choice" data-name="sheen"><button type="button" class="choice" data-value="Gloss"><img class="finish-photo" src="assets/gloss.jpg" alt="Gloss" loading="lazy" width="640" height="480" /><strong>Gloss</strong><span>A high-shine timber finish.</span></button><button type="button" class="choice" data-value="Semi-Gloss"><img class="finish-photo" src="assets/semi-gloss.jpg" alt="Semi-Gloss" loading="lazy" width="640" height="480" /><strong>Semi-Gloss</strong><span>A balanced sheen with a soft shine.</span></button><button type="button" class="choice" data-value="Matte"><img class="finish-photo" src="assets/matte.jpg" alt="Matte" loading="lazy" width="640" height="480" /><strong>Matte</strong><span>A low-sheen timber finish.</span></button><button type="button" class="choice" data-value="Not sure"><strong>Not sure</strong><span>Jamie can recommend the right sheen.</span></button></div><p class="helper">Photos show real Floorman projects. Timber, lighting and finish can affect the final appearance.</p></div>
+          </div><p class="helper">Nail punching is included. Gap filling and repairs are assessed by Jamie after seeing the floor.</p>
           <div class="field-group">
             <label class="field-label">Anything we should know about the existing floor?</label>
             <p class="helper">Tick any that apply.</p>
@@ -116,8 +108,6 @@
         <section class="step" data-step="3">
           <h2>A few job details</h2>
           <label class="field">Number of large furniture items Floorman needs to move (excludes appliances)<input name="largeItems" type="number" min="0" max="10000" step="1" placeholder="0 if none; leave blank if unsure"></label>
-          <label class="field">Does hardboard need removing? (site visit/TBC)<select name="hardboard"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
-          <label class="field">Do any stairs need sanding/finishing? (priced separately/TBC)<select name="stairs"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
           <label class="field">Heavy glue/adhesive, paint or unusually difficult coatings? (review/TBC)<select name="difficultCoatings"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
           <p class="helper">Travel is TBC. These review items are excluded from the indicative estimate.</p>
 
@@ -142,11 +132,7 @@
             </div>
           </div>
 
-          <div class="field-group">
-            <label class="field-label">Is this part of a renovation or building project?</label>
-            <select name="project_type" id="projectType"><option value="">Choose one</option><option>No</option><option>Yes — renovation</option><option>Yes — new build</option><option>Not sure</option></select>
-            <input class="hidden" id="projectStage" type="text" name="project_stage" placeholder="Where is the project up to / when will the floor be ready?" />
-          </div>
+
 
           <div class="field-group">
             <label class="field-label">When are you hoping to have the work done?</label>

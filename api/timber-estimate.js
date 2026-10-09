@@ -31,10 +31,10 @@ function calculateTimber(input = {}) {
   for (const [key, label] of [['gapFilling','Gap filling'],['carpetRemoval','Carpet removal'],['fixingsRemoval','Tacks/staples/gripper removal'],['vinylRemoval','Normal vinyl/lino removal']]) {
     const choice = input[key];
     if (!['yes','no','unknown'].includes(choice)) throw new Error(`Choose ${label.toLowerCase()}`);
-    if (choice === 'unknown') review.push(`${label} — TBC`);
+    if (choice === 'unknown') review.push(`${label} — Jamie to price after inspection`);
     if (choice === 'yes' && subtotal != null) {
       if (Number.isFinite(rates[key]) && rates[key] > 0) subtotal += area * rates[key];
-      else review.push(`${label} — TBC`);
+      else review.push(`${label} — Jamie to price after inspection`);
     }
   }
   if (input.largeItems == null) review.push('Large items to move — TBC');
@@ -43,7 +43,7 @@ function calculateTimber(input = {}) {
     if (Number.isFinite(rates.largeItem) && rates.largeItem > 0) subtotal += input.largeItems * rates.largeItem;
     else review.push('Large items to move — TBC');
   }
-  for (const [key,label] of [['hardboard','Hardboard removal — site visit/TBC'],['stairs','Stairs — priced separately/TBC'],['difficultCoatings','Heavy glue/adhesive, paint or difficult coatings — review/TBC']]) {
+  for (const [key,label] of [['hardboard','Hardboard removal — Jamie to price after inspection'],['difficultCoatings','Heavy glue/adhesive, paint or difficult coatings — review/TBC']]) {
     if (!['yes','no','unknown'].includes(input[key])) throw new Error('Complete the review questions');
     if (input[key] !== 'no') review.push(label);
   }
