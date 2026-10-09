@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Floorman Waikato | Online Flooring Estimator</title>
-  <meta name="description" content="Explore Timber and Concrete flooring with Floorman Waikato. Share your project details for practical advice and a free quote." />
+  <meta name="description" content="Explore Timber, Concrete and Floor preparation with Floorman Waikato. Share your project details for practical advice and a free quote." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,6 +18,7 @@
       <div class="service-cards">
 <button class="service-card timber-card" type="button" id="startBtn"><img src="assets/timber-project.jpg" alt="Floorman finished timber floor with warm grain and window reflections" width="2048" height="1536" /><span class="service-copy"><strong>Timber floors</strong><span>Water base urethanes, Solvent base urethanes, Oil Systems, Staining systems.</span><span class="service-action">Start timber estimate →</span></span></button>
 <a class="service-card concrete-card" href="concrete.html"><img src="assets/concrete-project.jpg" alt="Floorman polished concrete floor reflecting windows and blue sky" width="1536" height="2048" /><span class="service-copy"><strong>Concrete floors</strong><span>Polished concrete, grind &amp; seal, Bush Hammer and floor preparation.</span><span class="service-action">Start concrete estimate →</span></span></a>
+<button class="service-card preparation-card" type="button" id="startPrepBtn"><img src="assets/preparation-levelling.png" alt="Floor preparation and levelling compound" width="386" height="386" /><span class="service-copy"><strong>Floor preparation</strong><span>Preparation for vinyl, carpet, laminate flooring or coating on concrete and timber substrates.</span><span class="service-action">Start preparation estimate →</span></span></button>
 </div>
 <div class="notice">No need to know all the answers. Choose “Not sure” whenever you need Jamie’s advice. Photos are optional, and your final quote is free.</div>
 </section>
@@ -35,7 +36,7 @@
           <div class="choice-grid single-choice" data-name="service">
             <button type="button" class="choice" data-value="Sand & coat — existing timber floor"><strong>Sand and coat finish</strong><span>Existing timber floor to be sanded and refinished.</span></button>
             <button type="button" class="choice" data-value="Sand & coat — oil finish"><strong>Sand and oil finish</strong><span>Sand the timber and apply a natural oil finish.</span></button>
-            <button type="button" class="choice" data-value="Floor preparation"><strong>Floor preparation</strong><span>Prepare the floor for a coating or new vinyl.</span></button>
+            <button type="button" class="choice hidden" data-value="Floor preparation"><strong>Floor preparation</strong><span>Prepare the floor for a coating or new vinyl.</span></button>
           </div>
           <label class="field hidden" id="serviceOtherWrap">Tell us briefly what you need<input type="text" name="service_other" placeholder="Optional note" /></label>
         <div id="floorDetails" class="hidden">
@@ -55,7 +56,7 @@
             </div>
           </div>
 
-          <div class="field-group">
+          <div class="field-group" id="timberTypeOptions">
             <label class="field-label">Do you know the timber type?</label>
             <select name="timber_type">
               <option value="">Choose one</option>
@@ -68,7 +69,7 @@
             <label class="field-label">What is on the floor now?</label>
             <select name="covering" id="coveringSelect">
               <option value="">Choose one</option>
-              <option>Bare timber</option><option>Existing polyurethane/coating</option><option>Carpet</option><option>Vinyl/lino</option><option>Hardboard</option><option>Other</option><option>Not sure</option>
+              <option>Bare concrete</option><option>Bare timber</option><option>Existing polyurethane/coating</option><option>Carpet</option><option>Vinyl/lino</option><option>Hardboard</option><option>Other</option><option>Not sure</option>
             </select>
             <p class="helper">Carpet, vinyl/lino, hardboard, tacks, gripper and glue removal are excluded from this estimate. Jamie will price any removal needed after seeing the floor.</p>
           </div>
