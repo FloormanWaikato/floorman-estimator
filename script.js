@@ -79,6 +79,7 @@ document.getElementById('startPrepBtn').addEventListener('click',()=>{
 });
 
 function updateOilOptions(jump){
+ const oilService=state.service==='Sand & coat — oil finish';if(oilService)state.appearance='Natural Oil Finish';document.getElementById('oilFinishPreview').classList.toggle('hidden',!oilService);document.getElementById('timberFinishOptions').classList.toggle('hidden',oilService||state.service==='Floor preparation');
  const oil=['Natural Oil Finish','Stealth — super-matte natural finish'].includes(state.appearance)&&state.service!=='Floor preparation';
  document.getElementById('timberSheenOptions').classList.toggle('hidden',oil);
  if(oil){delete state.sheen;document.querySelectorAll('[data-name="sheen"] [data-value]').forEach(button=>{button.classList.remove('selected');button.setAttribute('aria-pressed','false');});}
