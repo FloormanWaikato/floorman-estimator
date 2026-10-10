@@ -21,6 +21,7 @@ function calculateConcrete(input = {}) {
       review.unshift('Sealer type — Jamie to recommend');
     }
   } else if(input.service==='Grind and polish — low sheen') review.unshift('Grind and polish — low sheen — Jamie to confirm scope and pricing');
+  else if(input.service==='Cream / industrial finish') review.unshift('Cream / industrial finish — Jamie to confirm slab suitability and pricing');
   else if(input.service==='Bush Hammer') rateLow = rateHigh = 75;
   else review.unshift(input.service === 'Floor preparation / levelling' ? 'Floor preparation / levelling — discuss scope and pricing with Jamie' : 'Service / finish — Jamie to recommend');
   const low = area == null || rateLow == null ? null : money(area * rateLow * 1.15);
