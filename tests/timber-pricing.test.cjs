@@ -39,7 +39,7 @@ test('both customer forms retain required contact fields and four stages without
 test('approved area bands, minimum and staining remain server-only', t => {
   const previous = process.env.TIMBER_PRICING_JSON;
   t.after(()=>previous === undefined ? delete process.env.TIMBER_PRICING_JSON : process.env.TIMBER_PRICING_JSON = previous);
-  process.env.TIMBER_PRICING_JSON = JSON.stringify({areaBands:[{maxArea:70,rate:85},{maxArea:130,rate:80}],stain:100,sand:45,vinyl:60,minimum:650});
+  process.env.TIMBER_PRICING_JSON = JSON.stringify({areaBands:[{maxArea:70,rate:85},{maxArea:130,rate:80}],stain:100,sand:45,vinyl:60,carpetRemoval:10,vinylRemoval:15,minimum:650});
   const input = {finish:'oil',gapFilling:'no',carpetRemoval:'no',fixingsRemoval:'no',vinylRemoval:'no',largeItems:0,hardboard:'no',stairs:'no',difficultCoatings:'no'};
   for(const [area,total] of [[1,747.5],[10,747.5],[11,1075.25],[70,6842.5],[71,6532],[130,11960],[131,null]]) {
     for(const finish of ['oil','water']) assert.equal(calculateTimber({...input,area,finish}).total,total);
@@ -49,6 +49,8 @@ test('approved area bands, minimum and staining remain server-only', t => {
   assert.equal(calculateTimber({...input,area:20,finish:'vinyl',substrate:'yes'}).total,1380);
   assert.equal(calculateTimber({...input,area:20,finish:'vinyl',substrate:'unknown'}).total,null);
   assert.equal(calculateTimber({...input,area:5,finish:'stain'}).total,747.5);
+  assert.equal(calculateTimber({...input,area:20,carpetRemoval:'yes'}).total,2185);
+  assert.equal(calculateTimber({...input,area:20,vinylRemoval:'yes'}).total,2300);
   const extras=calculateTimber({...input,area:20,gapFilling:'yes',largeItems:2});
   assert.equal(extras.total,1955);
   assert.ok(extras.review.includes('Gap filling — Jamie to price after inspection'));

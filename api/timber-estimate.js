@@ -45,12 +45,13 @@ function calculateTimber(input = {}) {
     if (Number.isFinite(rates.largeItem) && rates.largeItem > 0) subtotal += input.largeItems * rates.largeItem;
     else review.push('Large items to move — TBC');
   }
-  for (const [key,label] of [['hardboard','Hardboard removal — Jamie to price after inspection'],['difficultCoatings','Heavy glue/adhesive, paint or difficult coatings — review/TBC']]) {
+  for (const [key,label] of [['hardboard','Hardboard removal — Jamie to discuss and confirm pricing'],['difficultCoatings','Heavy glue/adhesive, paint or difficult coatings — review/TBC']]) {
     if (!['yes','no','unknown'].includes(input[key])) throw new Error('Complete the review questions');
     if (input[key] !== 'no') review.push(label);
   }
+  if(['Ceramic tiles','Cork tiles'].includes(input.covering))review.push('Tile removal — Jamie to discuss and confirm pricing; removal excluded from this estimate');
   const total = subtotal == null ? null : Math.round((['sand','vinyl'].includes(finish)?subtotal:Math.max(rates.minimum, subtotal)) * 115) / 100;
-  return { status: total == null ? 'review' : 'indicative', total, currency: 'NZD', gst: 'Includes 15% GST', review, disclaimer, included: 'Nail punching included' };
+  return { status: total == null ? 'review' : 'indicative', total, currency: 'NZD', gst: 'Includes 15% GST', review, disclaimer, included: 'Nail punching included'+(input.carpetRemoval==='yes'&&rates?.carpetRemoval?'; carpet removal and disposal included':'')+(input.vinylRemoval==='yes'&&rates?.vinylRemoval?'; existing vinyl lifting included':'') };
 }
 module.exports = function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({error:'Method not allowed'});
