@@ -108,7 +108,7 @@
         <section class="step" data-step="3">
           <h2>A few job details</h2>
           <label class="field" id="furnitureItemsQuestion">Number of large furniture items Floorman needs to move (excludes appliances)<input name="largeItems" type="number" min="0" max="10000" step="1" placeholder="0 if none; leave blank if unsure"></label>
-          <label class="field">Heavy glue/adhesive, paint or unusually difficult coatings? (review/TBC)<select name="difficultCoatings"><option value="unknown">Not sure / Jamie to confirm</option><option value="no">No</option><option value="yes">Yes</option></select></label>
+          <input type="hidden" name="difficultCoatings" value="unknown">
           <p class="helper">Travel is TBC. These review items are excluded from the indicative estimate.</p>
 
           <div class="field-group">
@@ -145,7 +145,7 @@
           <p class="helper">Photos are optional and help Jamie assess your floor and the work required.</p>
           <div class="upload-placeholder"><strong>Photo upload</strong><span>Overall floor, close-up of timber, and any damaged areas</span><span class="muted">Selected photos are uploaded when you submit your enquiry.</span></div>
 
-          <label class="field">Anything else you’d like Jamie to know?<textarea name="comments" rows="4" placeholder="Optional comments"></textarea></label>
+          <label class="field">Anything else you’d like Jamie to know?<textarea name="comments" rows="4" placeholder="Tell Jamie anything else about the floor or job — optional."></textarea></label>
 
           <div class="contact-grid">
             <label class="field">Name *<input required type="text" name="name" autocomplete="name" /></label>
