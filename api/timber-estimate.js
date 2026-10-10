@@ -72,7 +72,7 @@ function calculatePreparation(input={}) {
   else if(substrate==='particleboard'&&['vinyl','laminate'].includes(target)) {
     rate=covering==='Vinyl/lino'?rates?.particleVinylLift:rates?.particleSand;
     included=covering==='Vinyl/lino'?'Lift existing vinyl and sand particle board ready for the new flooring':'Sand particle board ready for the new flooring';
-  } else if(substrate==='concrete'&&target==='vinyl') {rate=rates?.vinylConcrete;included='Grind and skim preparation — Jamie to confirm suitability after inspection';}
+  } else if(substrate==='concrete'&&target==='vinyl') {rate=rates?.vinylConcrete;included=covering==='Vinyl/lino'?'Lift existing vinyl, grind and skim preparation — Jamie to confirm suitability after inspection':covering==='Carpet'?'Remove existing carpet, grind and skim preparation — Jamie to confirm suitability after inspection':'Grind and skim preparation — Jamie to confirm suitability after inspection';}
   if(tiles&&(substrate==='particleboard'||substrate==='concrete')) {rate=null;review.unshift('Ceramic or cork tiles — Jamie to discuss removal and preparation before confirming pricing');}
   else if(substrate==='timber'&&covering==='Ceramic tiles') review.unshift('Ceramic tile removal — Jamie to confirm price; removal is excluded from this estimate');
   let subtotal=input.area!=null&&Number.isFinite(rate)&&rate>0?input.area*rate:null;
