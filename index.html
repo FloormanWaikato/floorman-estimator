@@ -83,7 +83,7 @@
             <button type="button" class="choice" data-value="Traditional warmer / richer timber look"><img class="finish-photo" src="assets/warmer-richer.jpg" alt="Warmer / richer timber floor" loading="lazy" width="640" height="480" /><strong>Warmer / richer</strong><span>A more traditional, deeper timber appearance.</span></button>
             <button type="button" class="choice" data-value="Stealth — super-matte natural finish"><img class="finish-photo" src="assets/stealth.jpg" alt="Stealth super-matte timber floor" loading="lazy" width="640" height="480" /><strong>Stealth</strong><span>A super-matte, very natural finish.</span></button>
             <button type="button" class="choice" data-value="Natural Oil Finish"><img class="finish-photo" src="assets/natural-oil.jpg" alt="Natural Oil Finish" loading="lazy" width="640" height="480" /><strong>Natural Oil Finish</strong><span>Enhances the natural character of the timber with a low-sheen, natural-looking finish.</span></button>
-            <button type="button" class="choice" data-value="Stained finish"><div class="photo-pair"><img class="finish-photo" src="assets/stained-brown.jpg" alt="Brown stained timber floor" loading="lazy" width="640" height="480" /><img class="finish-photo" src="assets/stained-grey-brown.jpg" alt="Grey-brown stained timber floor" loading="lazy" width="640" height="480" /></div><strong>Stained finish</strong><span>Change or deepen the timber colour.</span></button>
+            <button type="button" class="choice" data-value="Stained finish"><div><img class="finish-photo" src="assets/stained-brown.jpg" alt="Brown stained timber floor" loading="lazy" width="640" height="480" /></div><strong>Stained finish</strong><span>Change or deepen the timber colour.</span></button>
             <button type="button" class="choice" data-value="Not sure — Jamie to recommend"><strong>Not sure</strong><span>Jamie can recommend the best finish.</span></button>
           </div>
 
@@ -107,7 +107,7 @@
 
         <section class="step" data-step="3">
           <h2>A few job details</h2>
-          <label class="field" id="furnitureItemsQuestion">Number of large furniture items Floorman needs to move (excludes appliances)<input name="largeItems" type="number" min="0" max="10000" step="1" placeholder="0 if none; leave blank if unsure"></label>
+          <input type="hidden" name="largeItems" value="0">
           <input type="hidden" name="difficultCoatings" value="unknown">
           <p class="helper">Travel is TBC. These review items are excluded from the indicative estimate.</p>
 
