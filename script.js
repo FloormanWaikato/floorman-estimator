@@ -65,7 +65,7 @@ form.elements.prep_substrate.addEventListener('change',updatePreparationQuestion
 form.elements.covering.addEventListener('change',updatePreparationQuestions);
 
 function setPreparationEntry(prep){
- document.querySelector('.step[data-step="1"] > h2').classList.toggle('hidden',prep);document.getElementById('prepInputs').classList.toggle('hidden',!prep);document.querySelector('#floorDetails > h2').textContent=prep?'Tell us about your floor':'Tell us about the floor';form.elements.largeItems.disabled=prep;
+ document.querySelector('.step[data-step="1"] > h2').classList.remove('hidden');document.querySelector('.step[data-step="1"] > h2').textContent=prep?'Get an indicative estimate for your floor preparation':'Get an indicative estimate for your timber floor';document.getElementById('prepInputs').classList.toggle('hidden',!prep);document.querySelector('#floorDetails > h2').textContent=prep?'Tell us about your floor':'Tell us about the floor';form.elements.largeItems.disabled=prep;
  document.querySelector('.step[data-step="1"] > .helper').classList.toggle('hidden',prep);
  document.querySelector('[data-name="service"]').classList.toggle('hidden',prep);
  document.getElementById('timberTypeOptions').classList.toggle('hidden',prep);
