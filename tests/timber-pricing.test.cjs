@@ -58,13 +58,19 @@ test('approved area bands, minimum and staining remain server-only', t => {
 test('preparation pricing applies vinyl across substrates, carpet review and T&G coating only', t => {
   const previous=process.env.TIMBER_PRICING_JSON;
   t.after(()=>previous===undefined?delete process.env.TIMBER_PRICING_JSON:process.env.TIMBER_PRICING_JSON=previous);
-  process.env.TIMBER_PRICING_JSON=JSON.stringify({areaBands:[{maxArea:70,rate:85}],stain:100,sand:50,vinyl:60,vinylConcrete:35,laminateTimber:30,minimum:650});
+  process.env.TIMBER_PRICING_JSON=JSON.stringify({areaBands:[{maxArea:70,rate:85}],stain:100,sand:50,vinyl:60,vinylConcrete:35,laminateTimber:30,particleSand:30,particleVinylLift:35,prepCarpetRemoval:10,minimum:650});
   for(const calculate of [calculateTimber,input=>calculateConcrete({...input,service:'Floor preparation / levelling'})]) {
     for(const substrate of ['concrete','timber','particleboard','other']) {
-      assert.equal(calculate({area:20,preparationTarget:'vinyl',substrate}).total,substrate==='timber'?1380:substrate==='concrete'?805:null);
+      assert.equal(calculate({area:20,preparationTarget:'vinyl',substrate}).total,substrate==='timber'?1380:substrate==='concrete'?805:substrate==='particleboard'?690:null);
       assert.equal(calculate({area:20,preparationTarget:'carpet',substrate}).total,null);
-      assert.equal(calculate({area:20,preparationTarget:'laminate',substrate}).total,substrate==='timber'?690:null);
+      assert.equal(calculate({area:20,preparationTarget:'laminate',substrate}).total,['timber','particleboard'].includes(substrate)?690:null);
     }
+    const carpet=calculate({area:20,preparationTarget:'vinyl',substrate:'timber',covering:'Carpet'});
+    assert.equal(carpet.total,1610);assert.match(carpet.included,/carpet removal and disposal included/);
+    assert.equal(calculate({area:20,preparationTarget:'vinyl',substrate:'timber',covering:'Existing urethane coating on timber'}).total,1380);
+    const timberTiles=calculate({area:20,preparationTarget:'vinyl',substrate:'timber',covering:'Ceramic tiles'});assert.equal(timberTiles.total,1380);assert.match(timberTiles.review.join(' '),/removal is excluded/);
+    for(const target of ['vinyl','laminate'])assert.equal(calculate({area:20,preparationTarget:target,substrate:'particleboard',covering:'Vinyl/lino'}).total,805);
+    for(const substrate of ['particleboard','concrete'])for(const covering of ['Ceramic tiles','Cork tiles'])assert.equal(calculate({area:20,preparationTarget:'vinyl',substrate,covering}).total,null);
     assert.equal(calculate({area:20,preparationTarget:'coating',substrate:'timber',tongueGroove:'yes'}).total,1150);
     assert.equal(calculate({area:20,preparationTarget:'coating',substrate:'timber',tongueGroove:'unknown'}).total,null);
     assert.equal(calculate({area:20,preparationTarget:'coating',substrate:'concrete',tongueGroove:'yes'}).total,null);

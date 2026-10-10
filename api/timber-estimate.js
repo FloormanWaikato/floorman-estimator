@@ -62,8 +62,26 @@ module.exports.calculateTimber = calculateTimber;
 
 function calculatePreparation(input={}) {
   const rates=pricingConfig();
-  const rate=input.preparationTarget==='laminate'&&input.substrate==='timber'?rates?.laminateTimber:input.preparationTarget==='vinyl'?(input.substrate==='timber'?rates?.vinyl:input.substrate==='concrete'?rates?.vinylConcrete:null):input.preparationTarget==='coating'&&input.substrate==='timber'&&input.tongueGroove==='yes'?rates?.sand:null;
-  const total=input.area!=null&&Number.isFinite(rate)&&rate>0?Math.round(input.area*rate*115)/100:null;
-  return {status:total==null?'review':'indicative',total,currency:'NZD',gst:'Includes 15% GST',included:input.preparationTarget==='vinyl'&&input.substrate==='timber'?'Hardboard overlay — Jamie to confirm suitability after inspection':input.preparationTarget==='vinyl'&&input.substrate==='concrete'?'Grind and skim preparation — Jamie to confirm suitability after inspection':'Floor preparation for the selected covering',review:['Travel — TBC','Existing covering removal, repairs and levelling — Jamie to confirm after inspection',...(total==null?['Preparation scope and pricing — Jamie to confirm']:[])],disclaimer};
+  const target=input.preparationTarget, substrate=input.substrate, covering=input.covering||input.surface||'';
+  const tiles=covering==='Ceramic tiles'||covering==='Cork tiles';
+  const review=['Travel — TBC','Repairs and additional levelling — Jamie to confirm after inspection'];
+  let rate=null, included='Floor preparation for the selected covering';
+  if(substrate==='timber'&&target==='vinyl') {rate=rates?.vinyl;included='Hardboard overlay — Jamie to confirm suitability after inspection';}
+  else if(substrate==='timber'&&target==='laminate') {rate=rates?.laminateTimber;included='Sand timber floor ready for laminate flooring';}
+  else if(substrate==='timber'&&target==='coating'&&input.tongueGroove==='yes') {rate=rates?.sand;included='Sand tongue-and-groove timber ready for coating';}
+  else if(substrate==='particleboard'&&['vinyl','laminate'].includes(target)) {
+    rate=covering==='Vinyl/lino'?rates?.particleVinylLift:rates?.particleSand;
+    included=covering==='Vinyl/lino'?'Lift existing vinyl and sand particle board ready for the new flooring':'Sand particle board ready for the new flooring';
+  } else if(substrate==='concrete'&&target==='vinyl') {rate=rates?.vinylConcrete;included='Grind and skim preparation — Jamie to confirm suitability after inspection';}
+  if(tiles&&(substrate==='particleboard'||substrate==='concrete')) {rate=null;review.unshift('Ceramic or cork tiles — Jamie to discuss removal and preparation before confirming pricing');}
+  else if(substrate==='timber'&&covering==='Ceramic tiles') review.unshift('Ceramic tile removal — Jamie to confirm price; removal is excluded from this estimate');
+  let subtotal=input.area!=null&&Number.isFinite(rate)&&rate>0?input.area*rate:null;
+  if(substrate==='timber'&&covering==='Carpet') {
+    if(subtotal!=null&&Number.isFinite(rates?.prepCarpetRemoval)) {subtotal+=input.area*rates.prepCarpetRemoval;included+='; carpet removal and disposal included';}
+    else review.unshift('Carpet removal and disposal — Jamie to confirm with the preparation scope');
+  }
+  const total=subtotal==null?null:Math.round(subtotal*115)/100;
+  if(total==null)review.push('Preparation scope and pricing — Jamie to confirm');
+  return {status:total==null?'review':'indicative',total,currency:'NZD',gst:'Includes 15% GST',included,review,disclaimer};
 }
 module.exports.calculatePreparation=calculatePreparation;
