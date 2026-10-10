@@ -21,7 +21,7 @@ function calculateConcrete(input = {}) {
       review.unshift('Sealer type — Jamie to recommend');
     }
   } else if(input.service==='Grind and polish — low sheen') review.unshift('Grind and polish — low sheen — Jamie to confirm scope and pricing');
-  else if(input.service==='Bush Hammer') review.unshift('Textured Decorative Finish (Bush Hammer) — discuss scope and pricing with Jamie');
+  else if(input.service==='Bush Hammer') rateLow = rateHigh = 75;
   else review.unshift(input.service === 'Floor preparation / levelling' ? 'Floor preparation / levelling — discuss scope and pricing with Jamie' : 'Service / finish — Jamie to recommend');
   const low = area == null || rateLow == null ? null : money(area * rateLow * 1.15);
   const high = area == null || rateHigh == null ? null : money(area * rateHigh * 1.15);
@@ -29,7 +29,7 @@ function calculateConcrete(input = {}) {
     status: low == null ? 'review' : low === high ? 'indicative' : 'range',
     total: low != null && low === high ? low : null,
     low, high, currency: 'NZD', gst: 'Includes 15% GST',
-    included: input.service === 'Full polished concrete' ? 'Polished concrete finish for the measured area' : input.service === 'Grind & seal' ? 'Grind & seal finish for the measured area' : '',
+    included: input.service === 'Full polished concrete' ? 'Polished concrete finish for the measured area' : input.service === 'Grind & seal' ? 'Grind & seal finish for the measured area' : input.service === 'Bush Hammer' ? 'Bush Hammer finish for the measured area' : '',
     review, disclaimer: Array.isArray(input.conditions) && input.conditions.some(condition=>['Cracks','Holes or damaged areas','Existing repairs or patches','Oil, stains or contamination'].includes(condition)) ? disclaimer+'\n\n'+defectDisclaimer : disclaimer
   };
 }

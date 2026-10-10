@@ -92,3 +92,12 @@ test('selected concrete defects add approved explanation to result and customer 
   }
   assert.ok(!calculateConcrete({area:20,service:'Full polished concrete',conditions:['Nothing obvious']}).disclaimer.includes('Existing concrete defects'));
 });
+
+test('Bush Hammer uses approved hidden rate with GST and retains unknown-area review', () => {
+ const estimate=calculateConcrete({service:'Bush Hammer',area:20,rate:1});
+ assert.equal(estimate.total,1725);
+ assert.equal(estimate.status,'indicative');
+ assert.match(estimate.included,/Bush Hammer/);
+ assert.equal(estimate.rate,undefined);
+ assert.equal(calculateConcrete({service:'Bush Hammer',area:null}).status,'review');
+});
