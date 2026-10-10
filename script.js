@@ -42,6 +42,7 @@ function timberInput(){
   return details;
 }
 function validateMeasurements(){
+  if(!state.measure_mode){showStep(1);alert('Please choose how to provide your floor area, or choose Not sure.');return false;}
   if(state.measure_mode==='Room calculator'){
     const rooms=[...document.querySelectorAll('.room-row')];
     if(!rooms.length||rooms.some(r=>!['.room-length','.room-width'].every(s=>Number(r.querySelector(s).value)>0))){showStep(1);alert('Please enter a positive length and width for each room, or choose Not sure.');return false;}

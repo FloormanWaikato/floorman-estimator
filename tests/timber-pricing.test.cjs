@@ -58,12 +58,12 @@ test('approved area bands, minimum and staining remain server-only', t => {
 test('preparation pricing applies vinyl across substrates, carpet review and T&G coating only', t => {
   const previous=process.env.TIMBER_PRICING_JSON;
   t.after(()=>previous===undefined?delete process.env.TIMBER_PRICING_JSON:process.env.TIMBER_PRICING_JSON=previous);
-  process.env.TIMBER_PRICING_JSON=JSON.stringify({areaBands:[{maxArea:70,rate:85}],stain:100,sand:50,vinyl:60,vinylConcrete:35,minimum:650});
+  process.env.TIMBER_PRICING_JSON=JSON.stringify({areaBands:[{maxArea:70,rate:85}],stain:100,sand:50,vinyl:60,vinylConcrete:35,laminateTimber:30,minimum:650});
   for(const calculate of [calculateTimber,input=>calculateConcrete({...input,service:'Floor preparation / levelling'})]) {
     for(const substrate of ['concrete','timber','particleboard','other']) {
       assert.equal(calculate({area:20,preparationTarget:'vinyl',substrate}).total,substrate==='timber'?1380:substrate==='concrete'?805:null);
       assert.equal(calculate({area:20,preparationTarget:'carpet',substrate}).total,null);
-      assert.equal(calculate({area:20,preparationTarget:'laminate',substrate}).total,null);
+      assert.equal(calculate({area:20,preparationTarget:'laminate',substrate}).total,substrate==='timber'?690:null);
     }
     assert.equal(calculate({area:20,preparationTarget:'coating',substrate:'timber',tongueGroove:'yes'}).total,1150);
     assert.equal(calculate({area:20,preparationTarget:'coating',substrate:'timber',tongueGroove:'unknown'}).total,null);
